@@ -1,0 +1,7 @@
+# Only if it not used bc it needed for build image!!
+# Dockerfile
+.git/
+.gitignore
+node_modules
+.env
+data/

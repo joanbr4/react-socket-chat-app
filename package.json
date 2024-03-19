@@ -1,0 +1,17 @@
+{
+  "name": "sprint7",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd Chat-Client && npm run dev",
+    "start:backend": "cd Chat-Server && npm run dev"
+  },
+  "dependencies": {
+    "socket.io": "^4.7.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
