@@ -1,40 +1,42 @@
-import { useState } from "react";
-import { Form, NavLink, redirect, useNavigate } from "react-router-dom";
-import { Footer } from "./footer";
-import Cookies from "js-cookie";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { useState } from "react"
+import { NavLink, redirect, useNavigate } from "react-router-dom"
+import { Footer } from "./footer"
+// import Cookies from "js-cookie";
+import { CookiesProvider, useCookies } from "react-cookie"
 
 export const action = async ({ request }) => {
-  const dataForm = await request.formData();
-  const data = Object.fromEntries(dataForm);
-  const payload = { datos: data };
-  console.log(payload);
+  const [cookie, setCookie] = useCookies(["userData"])
+  const dataForm = await request.formData()
+  const data = Object.fromEntries(dataForm)
+  const payload = { datos: data }
+  console.log(payload)
   const response = await fetch("/login", {
     headers: {
       "Content-Type": "application/json",
     },
     method: "POST",
     body: JSON.stringify(payload),
-  });
+  })
   // const tokenClient = await response.text();
   // console.log(response.status, tokenClient);
   if (response.status !== 200) {
-    const tokenError = await response.text();
-    return tokenError;
+    const tokenError = await response.text()
+    return tokenError
   } else {
-    const tokenJSON = await response.json();
+    const tokenJSON = await response.json()
     // console.log("asdf", tokenJSON.queryUser.foundUser);
-    const { token, foundUser } = tokenJSON.queryUser;
-    console.log("asdf", foundUser, "tok:", token);
+    const { token, foundUser } = tokenJSON.queryUser
+    console.log("asdf", foundUser, "tok:", token)
+    setCookie("userData", foundUser)
     // Set-Cookies: .setItem("authToken", tokenClient)
-    return redirect("/home");
+    return redirect("/home")
   }
-};
+}
 
 export const Landing = () => {
-  const [room, setRoom] = useState("");
+  const [room, setRoom] = useState("")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <>
@@ -129,5 +131,5 @@ export const Landing = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}

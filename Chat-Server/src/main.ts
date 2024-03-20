@@ -60,9 +60,16 @@ io.on("connection", (socket) => {
     console.log("Array:", chat)
 
     const roomIndex = chat.findIndex((item) => item.room === room)
+    // io.to(room).emit(`room-${room}`, {
+    //   // text: message,
+    //   text: chat[roomIndex].messages,
+    //   user: apodo,
+    //   // room: room,
+    // }) //send noti to ourselves with io.in()
+    // socket.to(room).emit("chat", listMessage);// not send noti to ourselves with socket.in()
     io.to(room).emit(`room-${room}`, {
-      // text: message,
-      text: chat[roomIndex].messages,
+      text: message,
+      // message,
       user: apodo,
       // room: room,
     }) //send noti to ourselves with io.in()

@@ -8,7 +8,8 @@ interface Ichat {
 }
 
 interface IsocketReceved {
-  text: { msg: string; user: string }[]
+  text: string
+  // text: { msg: string; user: string }[]
   user: string
 }
 export const action = async ({
@@ -33,53 +34,48 @@ export function Sala() {
   const { id: room } = useParams()
   // const navigation = useNavigate()
   const inputRef = useRef(null)
-  const roomRef = useRef(null)
+  // const roomRef = useRef(null)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
   const [nickname, setNickname] = useState("")
   const [finalnickname, setFinalNickname] = useState("")
-  console.log("N", messages)
+  console.log("nick", message)
+  console.log("msg", messages.length)
   console.log("F", finalnickname)
   const socket = io("http://localhost:4000", {
     transports: ["websocket"], // Required when using Vite
   })
   socket.emit("room", room)
-  // const actionData = useActionData()
-  // console.log("asd", actionData)
 
   useEffect(() => {
     // socket.on("connect", () => {
     // })
     // if (actionData != undefined) {
-    socket.on(`room-${room}`, (msg: IsocketReceved) => {
-      const user = msg.user
-      const newChat = msg.text
-      console.log("werr", msg, user)
-      // const newChat = [...chat]
 
-      setMessages(newChat)
+    socket.on(`room-${room}`, (msg: IsocketReceved) => {
+      const updateMessages = [...messages]
+      updateMessages.push(msg)
+      console.log("state", updateMessages)
+      setMessages(updateMessages)
     })
     // }
-  }, [])
+  }, [messages])
+  // }, [socket])
 
   const createNickname = () => {
     setFinalNickname(nickname)
   }
 
-  const closeRoom = (room) => {
+  const closeRoom = (room: string) => {
     socket.emit("disconect", room)
   }
 
-  const sendMessage = (room, apodo) => {
+  const sendMessage = (room: string, apodo: string) => {
     // console.log("asdf", room)
     // const message = inputRef.current.value //Ya lo cogemos del useState
-    console.log("sad", apodo)
-    // if (finalnickname != "") {
+
     if (socket) socket.emit("chat", { message, room, apodo })
-    inputRef.current.value = ""
-    // } else {
-    //   alert("Debes ingresar un nickname")
-    // }
+    inputRef.current.value = "" //FIXME: how to fix this alert bc of typescript nature
   }
 
   // }, [socketing, actionData]);
@@ -106,18 +102,17 @@ export function Sala() {
         ) : (
           <div className="chatRoom">
             <div className="messageBoxRoom">
-              {messages.map(
-                (linea, index) => (
-                  // {
-                  // return (
+              {messages.length > 0 ? (
+                messages.map((msg: IsocketReceved, index) => (
                   <Message
                     key={index}
-                    message={linea.msg}
-                    userLine={linea.user}
+                    message={msg.text}
+                    userLine={msg.user}
                     index={index}
                   />
-                )
-                // )
+                ))
+              ) : (
+                <h2>Aun no has escrito ningún mensaje</h2>
               )}
             </div>
 
@@ -139,7 +134,7 @@ export function Sala() {
                 <button
                   className="buttonInputRoom"
                   type="submit"
-                  onClick={() => sendMessage(room, finalnickname)}
+                  onClick={() => sendMessage(room as string, finalnickname)}
                 >
                   Send
                 </button>
@@ -150,19 +145,7 @@ export function Sala() {
         )}
       </div>
 
-      {/* <Form method="POST">
-        <input
-          ref={roomRef}
-          type="text"
-          id="inputCreate"
-          name="name_rom"
-          placeholder="Nombre de la sala"
-        />
-        <button type="submit" onClick={() => createroom()}>
-          Crear sala
-        </button>
-      </Form> */}
-      <br />
+      {/* <br /> */}
       {/* <button
         onClick={() => {
           navigation(-1)

@@ -1,10 +1,10 @@
-import Select from "react-select";
-import { Form, Link, redirect } from "react-router-dom";
+import Select from "react-select"
+import { Form, Link, redirect, useActionData } from "react-router-dom"
 
 export const action = async ({ request }: { request: Request }) => {
-  const dataForm = await request.formData();
-  const payload = { data: Object.fromEntries(dataForm) };
-  console.log(payload);
+  const dataForm = await request.formData()
+  const payload = { data: Object.fromEntries(dataForm) }
+  console.log(payload)
   const response = await fetch("/register", {
     headers: {
       "Content-Type": "application/json",
@@ -12,18 +12,19 @@ export const action = async ({ request }: { request: Request }) => {
     method: "POST",
     // body: { datos: payload },
     body: JSON.stringify(payload),
-  });
-  console.log(response.status);
-  return "/sala/general";
-  // return redirect("/sala/general")
-};
+  })
+  console.log(response.status)
+  if (response.status === 200) return redirect("/")
+  return "ERror!!general"
+}
 
 export const Register = () => {
+  const errorLoader = useActionData()
   const options = [
     { value: "he/him", label: "He/him" },
     { value: "she/her", label: "She/Her" },
     { value: "other", label: "they/them" },
-  ];
+  ]
 
   return (
     <div className="registerBody">
@@ -51,12 +52,13 @@ export const Register = () => {
         <input type="password" name="password" id="password" />
 
         <button type="submit">Register</button>
+        {/* {errorLoader.length > 0 && <p>{errorLoader}</p>} */}
       </Form>
       <button>
         <Link to="/">Volver</Link>
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
