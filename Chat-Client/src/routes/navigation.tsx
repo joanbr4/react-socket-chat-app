@@ -1,4 +1,4 @@
-import { NavLink, Form } from "react-router-dom"
+import { NavLink, Form } from "react-router-dom";
 
 // export const action = async ({ request }: { request: Request }) => {
 //   const dataForm = await request.formData()
@@ -47,8 +47,9 @@ export const Navigation = () => {
               Sign In
             </NavLink>
           </button>
+          <div className="errorMsg"></div>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};

@@ -85,7 +85,7 @@
     }
   }
 }
-.bodyHome {
+.bodySala {
   /* height: 50vh; */
   text-align: center;
   .boxHome {
@@ -182,6 +182,10 @@
       }
     }
   }
+}
+
+.bodyHome {
+  display: flex;
 }
 
 .Footer {

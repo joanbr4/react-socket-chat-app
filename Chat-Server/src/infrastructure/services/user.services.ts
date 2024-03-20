@@ -1,15 +1,15 @@
-import { IdataLogin, IdataRegister } from "../../domain/model"
-import { Document, Model } from "mongoose"
-import { UserModel } from "../database/mongoose"
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+import { IdataLogin, IdataRegister } from "../../domain/model";
+import { Document, Model } from "mongoose";
+import { UserModel } from "../database/mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const register = async (
   data: IdataRegister
   // data: Document<IdataRegister>
 ): Promise<void> => {
   try {
-    const { name, surname, nickname, genere, email, password } = data
+    const { name, surname, nickname, genere, email, password } = data;
     await UserModel.create({
       name: name,
       username: surname,
@@ -18,27 +18,34 @@ export const register = async (
       email: email,
       password: password,
       date: Date.now(),
-    })
+    });
+
+    const allUser = await UserModel.find({ email: email });
+    console.log("fromMongo", allUser);
   } catch (err) {
-    throw Error
+    throw Error;
   }
-}
+};
 
 export const login = async (data: IdataLogin) => {
   try {
     const foundUser = await UserModel.findOne({
-      $and: [{ email: data.email }, { passw: data.passw }],
-    })
-    if (!foundUser) throw new Error("No login match")
-    const isMatch = bcrypt.compareSync(data.passw, foundUser.password)
-    if (isMatch) {
-      const token = jwt.sign(foundUser, "sercrekey", { expiresIn: "1h" })
+      email: data.email,
+      // $and: [{ email: data.email }, { passw: data.passw }],
+    });
+    console.log("user:", foundUser);
 
-      return { foundUser, token }
+    if (!foundUser) return { message: "No login match" };
+
+    const isMatch = bcrypt.compareSync(data.passw, foundUser.password);
+    if (isMatch) {
+      const token = jwt.sign({ foundUser }, "sercrekey", { expiresIn: "1h" });
+
+      return { foundUser, token };
     } else {
-      throw new Error("No crypto is correct")
+      return { mssg: "Error en el password" };
     }
   } catch (err) {
-    console.log(err)
+    return { mssg: "Error en los datos de login", err };
   }
-}
+};

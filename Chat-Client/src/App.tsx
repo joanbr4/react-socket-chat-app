@@ -3,18 +3,19 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-} from "react-router-dom";
-import "./App.css";
-import { Register, action as registerAction } from "./routes/register";
+} from "react-router-dom"
+import "./App.css"
+import { Register, action as registerAction } from "./routes/register"
 import {
   MainLayout,
   // action as landingAction,
   loader as landingLoader,
-} from "./routes/layout";
-import { Sala, action as salaAction } from "./routes/sala";
-import { Home, action as homeAction } from "./routes/home";
+} from "./routes/layout"
+import { Sala, action as salaAction } from "./routes/sala"
+import { Landing, action as homeAction } from "./routes/landing"
 // import { Navigation, action as navigationACtion } from "./routes/navigation"
-import { PublicRoute, PrivateRoute } from "./routes/managinRoutes";
+import { PublicRoute, PrivateRoute } from "./routes/managinRoutes"
+import { Home, loader as homeLoader } from "./routes/home"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +28,7 @@ const router = createBrowserRouter(
       >
         <Route
           path="/"
-          element={<Home />}
+          element={<Landing />}
           // element={<PublicRoute element={<Home />} />}
           // action={landingAction}
           action={homeAction}
@@ -41,17 +42,17 @@ const router = createBrowserRouter(
           // loader={gameLoader}
         />
         <Route
-          path="/user"
-          element={<Sala />}
+          path="/home"
+          element={<Home />}
           // element={<PrivateRoute element={<Sala />} />}
           action={salaAction}
-          // loader={gameLoader}
+          loader={homeLoader}
         />
       </Route>
       {/* <Route element={<Navigation />} action={navigationACtion} /> */}
       <Route path="/signIn" element={<Register />} action={registerAction} />
     </>
   )
-);
+)
 
-export default router;
+export default router

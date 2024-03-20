@@ -3,13 +3,16 @@ import mongoose, { ConnectOptions, Schema, model } from "mongoose";
 import { IdataRegister } from "../../domain/model";
 import bcrypt from "bcrypt";
 
-// let uri = "mongodb://172.18.0.2";
-// let uri = "mongodb://localhost:8081";
-// let uri = "mongodb://127.0.0.1";
-let uri = "mongodb://root:example@localhost:8081";
-// let uri = "mongodb://root:example@mongo:8081";
-// let uri = "mongodb://mongo:8081"
-// let uri = "mongodb://root:example@127.0.0.1/"
+const {
+  MONGO_INITDB_ROOT_USERNAME: root,
+  MONGO_INITDB_ROOT_PASSWORD: example,
+} = process.env;
+// let uri = "mongodb://172.18.0.2"; //script Juanca
+// let uri = "mongodb://172.23.0.3:27017"; //nicolokaNet, ip del Puerto del contenedor
+// let uri = `mongodb://${root}:${example}@localhost:27017`; //El puerto viene predefinido en la imagen, de manera interna, si cambio da error!!
+let uri = `mongodb://root:example@localhost:27017`; //El puerto viene predefinido en la imagen, de manera interna, si cambio da error!!
+// let uri = "mongodb://localhost:27017"; //Funciona!!
+
 // mongoose.set("useNewUrlParser", true)
 mongoose
   .connect(
@@ -20,8 +23,14 @@ mongoose
     //   dbName: "sprint7",
     // }
   )
-  .then(() => {
+  .then(async () => {
+    const allUser = await UserModel.find();
     console.log("Connected to MongoDB!");
+    console.log("allUsersFromMongo", allUser.at(-1));
+  })
+  .catch((err) => {
+    console.log("error!!");
+    throw err;
   });
 
 const saltRounds = 8;

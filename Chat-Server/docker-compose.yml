@@ -26,11 +26,12 @@ services:
     volumes:
       - "./data/mongodb:/data/db"
     ports:
-      - 8081:8081
+      - 27017:27017
     networks:
       - node_network
 
-  digNikola:
+        # docker run -it --network chat-server_node_network nicolaka/netshoot
+  digNikola: #dig mongo
     image: nicolaka/netshoot
     networks:
       - node_network
