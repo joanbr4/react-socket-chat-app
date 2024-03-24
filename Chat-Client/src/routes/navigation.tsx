@@ -1,24 +1,10 @@
-import { NavLink, Form } from "react-router-dom";
-
-// export const action = async ({ request }: { request: Request }) => {
-//   const dataForm = await request.formData()
-//   const data = Object.fromEntries(dataForm)
-//   const payload = { datos: data }
-//   console.log(payload)
-//   const result = await fetch("/login", {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     method: "POST",
-//     body: JSON.stringify(payload),
-//   })
-//   if (result.status === 400) {
-//     return "hola"
-//   }
-//   return redirect("/game")
-// }
+import { useContext } from "react"
+import { NavLink, Form, useActionData } from "react-router-dom"
 
 export const Navigation = () => {
+  const dataAction = useActionData()
+  const [currentUser, setCurrentUSer] = useContext(CurrentUserContext)
+  // console.log(data)
   return (
     <nav className="Nav">
       <div className="barNav">
@@ -51,5 +37,5 @@ export const Navigation = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}

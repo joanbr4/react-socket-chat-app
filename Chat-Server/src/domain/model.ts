@@ -8,9 +8,18 @@ interface IdataLogin {
 interface IcustomRequest extends Request {
   token: string | JwtPayload
 }
-
+interface IDTOsocket {
+  message: string
+  room: string
+  apodo: string
+}
 interface IcontrollerExpress {}
 
+interface IusersXroom {
+  tecnologia: string[]
+  cultural: string[]
+  deportes: string[]
+}
 interface IdataRegister {
   name: string
   surname: string
@@ -30,4 +39,6 @@ export {
   IdataRegister,
   IdbMessage,
   IcustomRequest,
+  IDTOsocket,
+  IusersXroom,
 }

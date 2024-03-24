@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react"
-import { Form, useActionData, useNavigate, useParams } from "react-router-dom"
+import {
+  Form,
+  redirect,
+  useActionData,
+  useNavigate,
+  useParams,
+} from "react-router-dom"
 import { io } from "socket.io-client"
 import { Message } from "./message"
 
@@ -8,9 +14,9 @@ interface Ichat {
 }
 
 interface IsocketReceved {
-  text: string
+  message: string
   // text: { msg: string; user: string }[]
-  user: string
+  apodo: string
 }
 export const action = async ({
   request,
@@ -32,49 +38,55 @@ export const action = async ({
 
 export function Sala() {
   const { id: room } = useParams()
-  // const navigation = useNavigate()
+  const navigate = useNavigate()
   const inputRef = useRef(null)
   // const roomRef = useRef(null)
+  const [count, setCount] = useState(0)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
   const [nickname, setNickname] = useState("")
   const [finalnickname, setFinalNickname] = useState("")
-  console.log("nick", message)
-  console.log("msg", messages.length)
+  console.log("msg", message)
+  console.log("msgs", messages.length)
   console.log("F", finalnickname)
+  //Count user even no sending any mssg
   const socket = io("http://localhost:4000", {
     transports: ["websocket"], // Required when using Vite
   })
-  socket.emit("room", room)
+
+  socket.on("count Users", (totalUsers) => {
+    console.log("totalUsers", totalUsers)
+    setCount(totalUsers)
+  })
 
   useEffect(() => {
-    // socket.on("connect", () => {
-    // })
-    // if (actionData != undefined) {
-
-    socket.on(`room-${room}`, (msg: IsocketReceved) => {
+    if (finalnickname != "") {
+      socket.emit("count Users", { room, finalnickname, status: true })
+    }
+    socket.on(`public-${room}`, (msg: IsocketReceved) => {
+      // socket.on(`room-${room}`, (msg: IsocketReceved) => {
       const updateMessages = [...messages]
       updateMessages.push(msg)
       console.log("state", updateMessages)
       setMessages(updateMessages)
     })
     // }
-  }, [messages])
+  }, [socket, messages, room, finalnickname])
   // }, [socket])
 
   const createNickname = () => {
+    socket.emit("count Users", { room, finalnickname, status: true })
     setFinalNickname(nickname)
   }
 
   const closeRoom = (room: string) => {
-    socket.emit("disconect", room)
+    socket.emit("count Users", { room, finalnickname, status: false })
+    navigate("/")
   }
 
   const sendMessage = (room: string, apodo: string) => {
-    // console.log("asdf", room)
-    // const message = inputRef.current.value //Ya lo cogemos del useState
+    if (socket) socket.emit("public-chat", { message, room, apodo })
 
-    if (socket) socket.emit("chat", { message, room, apodo })
     inputRef.current.value = "" //FIXME: how to fix this alert bc of typescript nature
   }
 
@@ -82,8 +94,18 @@ export function Sala() {
   return (
     <div className="salaRoom">
       <div className="titleRoom">
+        <button
+          onClick={() => {
+            closeRoom(room as string)
+            // navigate("/")
+          }}
+        >
+          Volver
+        </button>
+
         <h3>Room: {room}</h3>
         <h4>Live Chat</h4>
+        <button>{count} Connected</button>
       </div>
       <div className="bodyRoom">
         {finalnickname == "" ? (
@@ -101,18 +123,18 @@ export function Sala() {
           </div>
         ) : (
           <div className="chatRoom">
-            <div className="messageBoxRoom">
+            <div className="messageBoxR oom">
               {messages.length > 0 ? (
                 messages.map((msg: IsocketReceved, index) => (
                   <Message
                     key={index}
-                    message={msg.text}
-                    userLine={msg.user}
+                    message={msg.message}
+                    apodo={msg.apodo}
                     index={index}
                   />
                 ))
               ) : (
-                <h2>Aun no has escrito ningún mensaje</h2>
+                <p>{nickname} se ha conectado...</p>
               )}
             </div>
 

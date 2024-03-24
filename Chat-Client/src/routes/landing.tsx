@@ -1,11 +1,12 @@
-import { useState } from "react"
-import { NavLink, redirect, useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
+import { NavLink, redirect, useActionData, useNavigate } from "react-router-dom"
 import { Footer } from "./footer"
-// import Cookies from "js-cookie";
-import { CookiesProvider, useCookies } from "react-cookie"
+import Cookies from "js-cookie"
+import { UserContext } from "./UserContext"
+// import { CookiesProvider, useCookies } from "react-cookie"
 
-export const action = async ({ request }) => {
-  const [cookie, setCookie] = useCookies(["userData"])
+export const action = async ({ request }: { request: Request }) => {
+  // const [cookie, setCookie] = useCookies(["userData"])
   const dataForm = await request.formData()
   const data = Object.fromEntries(dataForm)
   const payload = { datos: data }
@@ -23,17 +24,33 @@ export const action = async ({ request }) => {
     const tokenError = await response.text()
     return tokenError
   } else {
-    const tokenJSON = await response.json()
-    // console.log("asdf", tokenJSON.queryUser.foundUser);
-    const { token, foundUser } = tokenJSON.queryUser
-    console.log("asdf", foundUser, "tok:", token)
-    setCookie("userData", foundUser)
-    // Set-Cookies: .setItem("authToken", tokenClient)
-    return redirect("/home")
+    const cookies = document.cookie.toString().split(";")
+    console.log("we", cookies)
+    const partCookie = cookies[0].split("=")[1]
+    const decodedCookie = decodeURIComponent(partCookie)
+    console.log("asd", decodedCookie)
+
+    const parseCookie = JSON.parse(decodedCookie)
+    console.log("awe", parseCookie)
+    const { nickname, ...data } = parseCookie
+
+    Cookies.set(`${nickname}`, JSON.stringify(parseCookie))
+    const dataCook = JSON.parse(Cookies.get("userCookie"))
+    console.log("3423", dataCook)
+    Cookies.remove("userCookie")
+
+    return parseCookie
+    // return redirect(`/home`)
+    // return redirect(`/home/${nickname}`)
   }
 }
 
 export const Landing = () => {
+  const dataAction = useActionData()
+  const { login } = useContext(UserContext)
+
+  login(dataAction)
+  // const [currentUser, setCurrentUSer] = useContext(CurrentUserContext)
   const [room, setRoom] = useState("")
 
   const navigate = useNavigate()
@@ -106,7 +123,7 @@ export const Landing = () => {
         <form>
           <input
             type="text"
-            id="inputJoin"
+            id="inputCreate"
             name="create_rom"
             placeholder="Nombre de la sala"
             onChange={(e) => setRoom(e.target.value)}

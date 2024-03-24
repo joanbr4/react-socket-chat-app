@@ -4,9 +4,10 @@ import router from "./infrastructure/routes/express-router"
 import { createServer } from "http"
 import { Server } from "socket.io"
 import cors from "cors"
+
 // import { client } from "./infrastructure/database/mongoose"
 import mongoose from "mongoose"
-import { IdbMessage } from "./domain/model"
+import { IDTOsocket, IdbMessage, IusersXroom } from "./domain/model"
 
 const {
   PORT: port,
@@ -22,8 +23,8 @@ const server = createServer(app)
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+// app.use(cookieParser());
 
-// const io = new Server(server)
 const io = new Server(server, {
   connectionStateRecovery: {},
   cors: {
@@ -36,10 +37,50 @@ let userChatting = 0
 let chat: IdbMessage[] = []
 app.use("/api", router)
 
-const rooms = ["general", "cultural", "deportes"]
+const rooms = ["tecnologia", "cultural", "deportes"]
+let usersXroom: {
+  tecnologia: Set<string>
+  cultura: Set<string>
+  deportes: Set<string>
+} = {
+  tecnologia: new Set(),
+  cultura: new Set(),
+  deportes: new Set(),
+}
+// const usersXroom: IusersXroom = { tecnologia: [], cultural: [], deportes: [] }
 
 io.on("connection", (socket) => {
-  console.log("Client connected:", socket.id)
+  // console.log("Client connected:", socket.id)
+
+  //Socket to count live users
+  socket.on("count Users", (data) => {
+    console.log("fromClient", data)
+    const { room, finalnickname, status } = data
+    const roomKey = room as keyof typeof usersXroom //assert room is a key of object
+    const usersData = Array.from(usersXroom[roomKey])
+    const num = usersData.length
+    console.log("pre", usersData, "total:", num)
+
+    if (finalnickname != "" && status) {
+      usersXroom[roomKey].add(finalnickname)
+      const usersData = Array.from(usersXroom[roomKey])
+      const num = usersData.length
+      // console.log("post", usersData, "total:", num)
+      io.emit("count Users", num)
+    } else {
+      usersXroom[roomKey].delete(finalnickname)
+      const usersData = Array.from(usersXroom[roomKey])
+      const num = usersData.length
+      io.emit("count Users", num)
+    }
+  })
+
+  //reflecting from public socket to public socket
+  socket.on("public-chat", (msg: IDTOsocket) => {
+    const { message, room, apodo } = msg
+
+    io.emit(`public-${room}`, { message, apodo }) //io. let send to ourselve and everyone
+  })
 
   //Al socket del cliente lo vincualamos a una room que viene desde el cliente
   socket.on("room", (room) => {
@@ -47,6 +88,7 @@ io.on("connection", (socket) => {
     console.log(`user": ${socket.id} has joinned to ${room} room`)
   })
 
+  //Private socket of clients
   socket.on("chat", (data) => {
     const { message, room, apodo } = data
 

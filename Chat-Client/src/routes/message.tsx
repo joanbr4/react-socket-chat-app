@@ -1,4 +1,12 @@
-export const Message = ({ message, userLine, index }) => {
+export const Message = ({
+  message,
+  apodo,
+  index,
+}: {
+  message: string
+  apodo: string
+  index: number
+}) => {
   const color =
     Math.floor(Math.random() * 999) +
     ", " +
@@ -6,15 +14,15 @@ export const Message = ({ message, userLine, index }) => {
     "%, " +
     Math.floor(Math.random() * (30 - 0) + 0) +
     "%"
-  console.log("aw", color)
+  // console.log("aw", color)
   return (
     <>
       <li key={index} className="lineRoom">
         {/* <div className="userMessage"> */}
         <span className="userMessage" style={{ color: `hsl(${color})` }}>
-          {userLine}:
+          {apodo}:
         </span>
-        <div className="msgMessage">{message}</div>
+        <span className="msgMessage"> {message}</span>
         {/* </div> */}
       </li>
       {/* <br /> */}

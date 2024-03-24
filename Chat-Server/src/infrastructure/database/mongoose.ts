@@ -26,7 +26,8 @@ mongoose
   .then(async () => {
     const allUser = await UserModel.find()
     console.log("Connected to MongoDB!")
-    console.log("allUsersFromMongo", allUser.at(-1))
+    console.log("lastUser:", allUser.at(-1))
+    console.log("count:", allUser.length)
   })
   .catch((err) => {
     console.log("error!!")

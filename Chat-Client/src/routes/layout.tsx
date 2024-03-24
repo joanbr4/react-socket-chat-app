@@ -1,38 +1,32 @@
-import { Form, Outlet, redirect, useActionData } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import { Navigation } from "./navigation"
+import Cookies from "js-cookie"
+import { useState, createContext, useContext } from "react"
 // import { Footer } from "./footer"
+import { UserContext, UserProvider } from "./UserContext"
 
-export const loader = async () => {
-  // console.log(result)
-  // const socket = io()
-  return "hola"
-}
-
-// export const action = async ({ request }: { request: Request }) => {
-//   const dataForm = await request.formData()
-//   const data = Object.fromEntries(dataForm)
-//   const payload = { datos: data }
-//   console.log(payload)
-//   const result = await fetch("/login", {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     method: "POST",
-//     body: JSON.stringify(payload),
-//   })
-//   if (result.status === 400) {
-//     return "hola"
-//   }
-//   return redirect("/game")
+// const CurrentUserContext = createContext(null)
+// export const loader = async () => {
+//   // console.log(result)
+//   // const socket = io()
+//   return "hola"
 // }
 
 const MainLayout = () => {
+  const [user, setUser] = useState(null)
+
+  const dataCookie = Cookies.get("dataUSer")
+
+  console.log("aerer", dataCookie)
   // const dataAction = useActionData()
   return (
     <>
-      <Navigation />
-      <Outlet />
-      {/* <Footer /> */}
+      <UserProvider value={{ user, setCurrentUser: setUser }}>
+        <Navigation />
+        {/* <Navigation value={{ setCurrentUser }} /> */}
+        <Outlet />
+        {/* <Footer /> */}
+      </UserProvider>
     </>
   )
 }

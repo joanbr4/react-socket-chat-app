@@ -111,6 +111,7 @@
   text-align: center;
   height: 100vh-200px;
   .titleRoom {
+    display: flex;
     h4,
     h3 {
       margin: 0;
@@ -143,7 +144,7 @@
         /* align-items: left; */
         .lineRoom {
           display: flex;
-          /* flex-direction: ; */
+          /* flex-direction:  */
           width: 100%;
           height: 100%;
           /* background-color: black; */
