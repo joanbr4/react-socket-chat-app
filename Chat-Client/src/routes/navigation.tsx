@@ -12,7 +12,7 @@ export const Navigation = () => {
   console.log("dataNAv:", userRef)
 
   const logout = () => {
-    Cookies.remove("dataUser")
+    Cookies.remove("dataUser") //works!!
     userRef.current = null
     navigate("/")
   }
