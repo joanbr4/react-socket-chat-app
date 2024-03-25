@@ -1,6 +1,6 @@
 import "dotenv/config"
 import mongoose, { ConnectOptions, Schema, model } from "mongoose"
-import { IdataRegister } from "../../domain/model"
+import { IdataRegister, IdbMessage } from "../../domain/model"
 import bcrypt from "bcrypt"
 
 const {
@@ -26,6 +26,7 @@ mongoose
   .then(async () => {
     const allUser = await UserModel.find()
     console.log("Connected to MongoDB!")
+    // console.log("AllUSers:", allUser)
     console.log("lastUser:", allUser.at(-1))
     console.log("count:", allUser.length)
   })
@@ -77,6 +78,26 @@ UserSchema.pre("save", async function (next) {
   next()
 })
 
-const UserModel = model<IdataRegister>("User", UserSchema)
+const ChatSchema: Schema = new Schema({
+  pair_writers: {
+    type: String,
+    required: true,
+  },
+  messages: [
+    {
+      writer: {
+        type: String,
+        required: true,
+      },
+      message: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+})
 
-export { UserModel }
+const UserModel = model<IdataRegister>("User", UserSchema)
+const ChatModel = model<IdbMessage>("Chat", ChatSchema)
+
+export { UserModel, ChatModel }

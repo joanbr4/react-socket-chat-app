@@ -6,7 +6,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom"
-import { io } from "socket.io-client"
+import { socket } from "./socket"
 import { Message } from "./message"
 
 interface Ichat {
@@ -40,6 +40,7 @@ export function Sala() {
   const { id: room } = useParams()
   const navigate = useNavigate()
   const inputRef = useRef(null)
+  // const socket = useRef(null)
   // const roomRef = useRef(null)
   const [count, setCount] = useState(0)
   const [message, setMessage] = useState("")
@@ -50,9 +51,6 @@ export function Sala() {
   console.log("msgs", messages.length)
   console.log("F", finalnickname)
   //Count user even no sending any mssg
-  const socket = io("http://localhost:4000", {
-    transports: ["websocket"], // Required when using Vite
-  })
 
   socket.on("count Users", (totalUsers) => {
     console.log("totalUsers", totalUsers)
@@ -70,7 +68,9 @@ export function Sala() {
       console.log("state", updateMessages)
       setMessages(updateMessages)
     })
+
     // }
+    // }, [])
   }, [socket, messages, room, finalnickname])
   // }, [socket])
 
@@ -81,6 +81,7 @@ export function Sala() {
 
   const closeRoom = (room: string) => {
     socket.emit("count Users", { room, finalnickname, status: false })
+    socket.close()
     navigate("/")
   }
 
@@ -92,7 +93,7 @@ export function Sala() {
 
   // }, [socketing, actionData]);
   return (
-    <div className="salaRoom">
+    <div className="bodySala">
       <div className="titleRoom">
         <button
           onClick={() => {
@@ -107,7 +108,7 @@ export function Sala() {
         <h4>Live Chat</h4>
         <button>{count} Connected</button>
       </div>
-      <div className="bodyRoom">
+      <div className="boxSala">
         {finalnickname == "" ? (
           <div className="apodoBoxRoom">
             <Form>

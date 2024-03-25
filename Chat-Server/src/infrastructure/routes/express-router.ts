@@ -1,13 +1,16 @@
-import express, { NextFunction } from "express";
-import * as userController from "../controllers/user.controller";
-import { auth } from "../middlware/auth";
+import express, { NextFunction } from "express"
+import * as userController from "../controllers/user.controller"
+import { auth } from "../middlware/auth"
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/login", userController.loginOne);
+router.post("/login", userController.loginOne)
 
-router.post("/register", userController.registerOne);
+router.post("/logout", userController.logoutOne)
 
-router.get("/user/:id", auth, (req, res) => {});
+router.post("/register", userController.registerOne)
 
-export default router;
+router.get("/chat/:owner/:with", userController.chatOne)
+// router.get("/chat/:user", auth, userController.chatOne)
+
+export default router

@@ -65,6 +65,7 @@
       font-size: 50px;
       margin: 0px;
     }
+
     .inputNav {
       border-radius: 8px;
       height: 25px;
@@ -85,18 +86,18 @@
     }
   }
 }
-.bodySala {
+.bodyLanding {
   /* height: 50vh; */
   text-align: center;
-  .boxHome {
+  .boxLanding {
     display: grid;
     grid-template-columns: 300px 300px;
     margin: auto;
     width: 400px;
-    .salaHome {
+    .salaLanding {
       width: 250px;
       font-size: 12px;
-      .textoHome {
+      .textoLanding {
         display: flex;
         flex-direction: row;
       }
@@ -107,8 +108,9 @@
   content: attr(data-text);
 }
 
-.salaRoom {
+.bodySala {
   text-align: center;
+  width: 100%;
   height: 100vh-200px;
   .titleRoom {
     display: flex;
@@ -122,7 +124,7 @@
     border-bottom: 1px solid black;
   }
 
-  .bodyRoom {
+  .boxSala {
     display: flex;
     align-items: center;
     justify-items: center;
@@ -187,6 +189,45 @@
 
 .bodyHome {
   display: flex;
+  height: calc(100vh - 100px);
+  .boxbusquedaHome {
+    display: flex;
+    position: relative;
+    .busquedaHome {
+      border: 2px solid #6765e0;
+      border-radius: 15px;
+      height: 20px;
+      width: 100%;
+    }
+    .svgHome {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+    }
+  }
+  .chatHome {
+    height: 100%;
+    width: 100%;
+    .boxInputRoom {
+      display: flex;
+      position: absolute;
+      bottom: 0;
+      /* left: auto; */
+      width: 100%;
+      height: 40px;
+
+      border-top: 1px solid black;
+      .textInputRoom {
+        width: 100vw;
+        height: 30px;
+        border: 1px solid transparent;
+      }
+      .buttonInputRoom {
+        margin: 0px;
+        padding: 0px;
+      }
+    }
+  }
 }
 
 .Footer {
@@ -221,6 +262,7 @@
     /* } */
   }
 }
+
 .dataForm {
   display: flex;
   flex-direction: column;

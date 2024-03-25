@@ -29,9 +29,13 @@ interface IdataRegister {
   password: string
   date: Date
 }
+interface Imessage {
+  writer: string
+  message: string
+}
 interface IdbMessage {
-  room: string
-  messages: object[]
+  pair_writers: string
+  messages: Imessage[]
 }
 export {
   IdataLogin,

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useDebugValue, useEffect, useState } from "react"
 import { NavLink, redirect, useActionData, useNavigate } from "react-router-dom"
 import { Footer } from "./footer"
 import Cookies from "js-cookie"
@@ -17,29 +17,34 @@ export const action = async ({ request }: { request: Request }) => {
     },
     method: "POST",
     body: JSON.stringify(payload),
+    credentials: "include", //read cookies then
   })
   // const tokenClient = await response.text();
   // console.log(response.status, tokenClient);
   if (response.status !== 200) {
-    const tokenError = await response.text()
-    return tokenError
+    // const tokenError = await response.text()
+    return redirect("/")
+    // return tokenError
   } else {
-    const cookies = document.cookie.toString().split(";")
-    console.log("we", cookies)
-    const partCookie = cookies[0].split("=")[1]
-    const decodedCookie = decodeURIComponent(partCookie)
-    console.log("asd", decodedCookie)
+    //including credentials, we can handle cookie data as well
+    const parseCookie = await response.json()
 
-    const parseCookie = JSON.parse(decodedCookie)
+    // getting cookie data as coomonJS mode
+    // const cookies = document.cookie.toString().split(";")
+    // const partCookie = cookies[0].split("=")[1]
+    // const decodedCookie = decodeURIComponent(partCookie)
+    // const parseCookie = JSON.parse(decodedCookie)
     console.log("awe", parseCookie)
-    const { nickname, ...data } = parseCookie
+    localStorage.setItem("token", parseCookie.token)
+    localStorage.setItem("user", parseCookie.user.nickname)
+    // const { nickname, ...data } = parseCookie
 
-    Cookies.set(`${nickname}`, JSON.stringify(parseCookie))
-    const dataCook = JSON.parse(Cookies.get("userCookie"))
-    console.log("3423", dataCook)
-    Cookies.remove("userCookie")
+    //We just sent with key Set in res.cookie()
+    // Cookies.set(`${nickname}`, JSON.stringify(parseCookie))
+    const dataCookie = JSON.parse(Cookies.get("dataUser")) //json
+    // const dataCookie = JSON.parse(Cookies.get(`${data.email}`))
 
-    return parseCookie
+    return dataCookie
     // return redirect(`/home`)
     // return redirect(`/home/${nickname}`)
   }
@@ -47,24 +52,28 @@ export const action = async ({ request }: { request: Request }) => {
 
 export const Landing = () => {
   const dataAction = useActionData()
+  const navigate = useNavigate()
+  const [room, setRoom] = useState("")
   const { login } = useContext(UserContext)
 
-  login(dataAction)
+  useEffect(() => {
+    if (dataAction != undefined) {
+      login(dataAction)
+      navigate("/home")
+    }
+  }, [dataAction])
   // const [currentUser, setCurrentUSer] = useContext(CurrentUserContext)
-  const [room, setRoom] = useState("")
-
-  const navigate = useNavigate()
 
   return (
     <>
-      <div className="bodySala">
+      <div className="bodyLanding">
         <h3>Bienvenido a las mejores salas de Chat Gratis</h3>
-        <div className="boxHome">
-          <div className="salaHome">
+        <div className="boxLanding">
+          <div className="salaLanding">
             <NavLink to="/sala/tecnologia">
               <h4>Sala Tecnologia</h4>
             </NavLink>
-            <div className="textoHome">
+            <div className="textoLanding">
               <img
                 src="public/IA_inteligencia_artificial-510x510.jpg"
                 alt="foto"
@@ -76,11 +85,11 @@ export const Landing = () => {
               </div>
             </div>
           </div>
-          <div className="salaHome">
+          <div className="salaLanding">
             <NavLink to="/sala/cultural">
               <h4>Sala Cultural</h4>
             </NavLink>
-            <div className="textoHome">
+            <div className="textoLanding">
               <img src="public/imagen_1_1508257076.jpg" alt="foto" width={70} />
               <div>
                 Bienvenidos al canal para mantener charlas intelectuales, todos
@@ -88,11 +97,11 @@ export const Landing = () => {
               </div>
             </div>
           </div>
-          <div className="salaHome">
+          <div className="salaLanding">
             <NavLink to="/sala/deportes">
               <h4>Sala Deportes</h4>
             </NavLink>
-            <div className="textoHome">
+            <div className="textoLanding">
               <img src="public/03-deportes_3.png.jpg" alt="foto" width={70} />
               <div>
                 Bienvenidos al canal para discutir de todo contra todos, todos
@@ -100,11 +109,11 @@ export const Landing = () => {
               </div>
             </div>
           </div>
-          <div className="salaHome">
+          <div className="salaLanding">
             <NavLink to="/sala/adultos">
               <h4>Sala +18</h4>
             </NavLink>
-            <div className="textoHome">
+            <div className="textoLanding">
               <img
                 src="public/f.elconfidencial.com_original_b42_e1c_33f_b42e1c33f447e1327f4d7176a42197b4.jpg"
                 alt="foto"

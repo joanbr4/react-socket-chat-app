@@ -8,6 +8,7 @@ import cors from "cors"
 // import { client } from "./infrastructure/database/mongoose"
 import mongoose from "mongoose"
 import { IDTOsocket, IdbMessage, IusersXroom } from "./domain/model"
+import { ChatModel } from "./infrastructure/database/mongoose"
 
 const {
   PORT: port,
@@ -81,6 +82,11 @@ io.on("connection", (socket) => {
 
     io.emit(`public-${room}`, { message, apodo }) //io. let send to ourselve and everyone
   })
+  socket.on("private-chat", (nameRoom) => {
+    console.log("private", nameRoom)
+
+    socket.join(nameRoom)
+  })
 
   //Al socket del cliente lo vincualamos a una room que viene desde el cliente
   socket.on("room", (room) => {
@@ -89,19 +95,31 @@ io.on("connection", (socket) => {
   })
 
   //Private socket of clients
-  socket.on("chat", (data) => {
-    const { message, room, apodo } = data
+  socket.on("chatting", (data) => {
+    const { message, room, writer } = data
+    console.log(`msg: ${message}, room: ${room}, user: ${writer}`)
+    const dataToInsert = { writer: writer, message: message }
+    const checkChat = ChatModel.findOne({ pair_writers: room })
+    if (!checkChat) {
+      ChatModel.create({
+        pair_writers: room,
+        $push: { messages: dataToInsert },
+        // `messages.writer`: writer,
+      })
+    } else {
+      ChatModel.updateOne(
+        { pair_writers: room },
+        { $push: { messages: dataToInsert } }
+      )
+    }
+    // const roomExisted = chat.findIndex((item) => item.room === room)
+    // if (roomExisted == -1)
+    //   chat.push({ room: room, messages: [{ msg: message, user: apodo }] })
+    // else chat[roomExisted].messages.push({ msg: message, user: apodo })
 
-    console.log(`msg: ${message}, room: ${room}, user: ${apodo}`)
+    // console.log("Array:", chat)
 
-    const roomExisted = chat.findIndex((item) => item.room === room)
-    if (roomExisted == -1)
-      chat.push({ room: room, messages: [{ msg: message, user: apodo }] })
-    else chat[roomExisted].messages.push({ msg: message, user: apodo })
-
-    console.log("Array:", chat)
-
-    const roomIndex = chat.findIndex((item) => item.room === room)
+    // const roomIndex = chat.findIndex((item) => item.room === room)
     // io.to(room).emit(`room-${room}`, {
     //   // text: message,
     //   text: chat[roomIndex].messages,
@@ -109,10 +127,10 @@ io.on("connection", (socket) => {
     //   // room: room,
     // }) //send noti to ourselves with io.in()
     // socket.to(room).emit("chat", listMessage);// not send noti to ourselves with socket.in()
-    io.to(room).emit(`room-${room}`, {
+    io.to(room).emit(`${room}`, {
       text: message,
       // message,
-      user: apodo,
+      user: writer,
       // room: room,
     }) //send noti to ourselves with io.in()
     // socket.to(room).emit("chat", listMessage);// not send noti to ourselves with socket.in()

@@ -12,10 +12,14 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     if (!token) {
       throw new Error()
     }
-    const decoded = jwt.verify(token, "privatekey")
+
+    console.log("tokenClient", token)
+    const decoded = jwt.verify(token, "secretKey")
+    console.log("decoded", decoded)
     ;(req as IcustomRequest).token = decoded
     next()
   } catch (err) {
+    console.log("No esta autorizado!!")
     res.status(401).send({ error: "Please authenticate" })
   }
 }

@@ -13,27 +13,35 @@ export const loginOne = async (req: Request, res: Response) => {
   }
 
   const queryUser = await userServices.login(data)
-
-  if (queryUser?.foundUser == undefined) {
+  console.log("ads", queryUser)
+  if (queryUser?.user == undefined) {
     res.status(404).send("Not valid login")
   } else {
     //to clear old cookies of previous cookies project
-    // res.clearCookie("cok_name")
-    // res.clearCookie("cok_nickname")
-    // res.clearCookie("g_state")
-    // res.clearCookie("G_ENABLED_IDPS")
-    // res.clearCookie("__stripe_mid")
+    // res.clearCookie("larita")
+    // res.clearCookie("lara@gmail.com")
+    // res.clearCookie("dataUSer")
     res.cookie("token", queryUser?.token, {
-      httpOnly: true,
-      // withCredentials: true,
-    })
-    res.cookie("dataUSer", JSON.stringify(queryUser?.foundUser), {
       // httpOnly: true,
       // withCredentials: true,
     })
-    res.status(200).send({ msg: "Logged in" })
+    res.cookie(
+      "dataUser",
+      // `${queryUser.foundUser.email}`,
+      JSON.stringify(queryUser?.user),
+      {
+        // httpOnly: true,
+        // withCredentials: true,
+      }
+    )
+    res.status(200).send(queryUser)
     // res.status(200).send({ queryUser, msg: "Logged in" });
   }
+}
+
+export const logoutOne = async (req: Request, res: Response) => {
+  res.clearCookie("dataUser")
+  res.status(200).send({ msg: "Logged out" })
 }
 
 export const registerOne = async (req: Request, res: Response) => {
@@ -46,5 +54,20 @@ export const registerOne = async (req: Request, res: Response) => {
     res.status(200).send("Registered")
   } catch (err) {
     res.status(404).send("Not valid register")
+  }
+}
+
+export const chatOne = async (req: Request, res: Response) => {
+  console.log("23sd", req.params)
+  const owner = req.params.owner
+  const chatWith = req.params.with
+  const sorted = [owner, chatWith].sort()
+  const nameRoom = `${sorted[0]} ${sorted[1]}`
+  console.log("chating with:", chatWith)
+  const chat = await userServices.chat(nameRoom)
+  if (chat == undefined) {
+    res.status(404).send({ msg: "No existe aun un chat" })
+  } else {
+    res.status(200).send(chat)
   }
 }

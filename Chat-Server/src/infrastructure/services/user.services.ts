@@ -1,6 +1,6 @@
 import { IdataLogin, IdataRegister } from "../../domain/model"
 import { Document, Model } from "mongoose"
-import { UserModel } from "../database/mongoose"
+import { ChatModel, UserModel } from "../database/mongoose"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
@@ -12,7 +12,7 @@ export const register = async (
     const { name, surname, nickname, genere, email, password } = data
     await UserModel.create({
       name: name,
-      username: surname,
+      surname: surname,
       nickname: nickname,
       genere: genere,
       email: email,
@@ -39,13 +39,26 @@ export const login = async (data: IdataLogin) => {
 
     const isMatch = bcrypt.compareSync(data.passw, foundUser.password)
     if (isMatch) {
-      const token = jwt.sign({ foundUser }, "sercrekey", { expiresIn: "1h" })
+      const { _id, name, surname, nickname, genere, email } = foundUser
+      const token = jwt.sign(
+        { _id, name, surname, nickname, genere, email },
+        "secretKey",
+        { expiresIn: "2 days" }
+      )
+      // const token = jwt.sign({ foundUser }, "secretKey", { expiresIn: "1h" })
 
-      return { foundUser, token }
+      return {
+        user: { _id, name, surname, nickname, genere, email },
+        token: token,
+      }
     } else {
       return { mssg: "Error en el password" }
     }
   } catch (err) {
     return { mssg: "Error en los datos de login", err }
   }
+}
+
+export const chat = async (nameRoom: string) => {
+  return await ChatModel.findOne({ pair_writers: nameRoom })
 }

@@ -13,20 +13,22 @@ import { UserContext, UserProvider } from "./UserContext"
 // }
 
 const MainLayout = () => {
-  const [user, setUser] = useState(null)
+  // const [user, setUser] = useState(null)
 
   const dataCookie = Cookies.get("dataUSer")
-
+  // if (dataCookie != undefined) {
+  //   setUser(dataCookie)
+  // }
   console.log("aerer", dataCookie)
   // const dataAction = useActionData()
   return (
     <>
-      <UserProvider value={{ user, setCurrentUser: setUser }}>
-        <Navigation />
-        {/* <Navigation value={{ setCurrentUser }} /> */}
-        <Outlet />
-        {/* <Footer /> */}
-      </UserProvider>
+      {/* <UserProvider value={{ user, setCurrentUser: setUser }}> */}
+      <Navigation />
+      {/* <Navigation value={{ setCurrentUser }} /> */}
+      <Outlet />
+      {/* <Footer /> */}
+      {/* </UserProvider> */}
     </>
   )
 }

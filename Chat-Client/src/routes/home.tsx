@@ -1,11 +1,14 @@
-import { useEffect, useRef } from "react"
-import { useLoaderData, Form } from "react-router-dom"
-import { io } from "socket.io-client"
+import { useContext, useEffect, useRef } from "react"
+import { useLoaderData, Form, Outlet } from "react-router-dom"
+import { socket } from "./socket"
 import { Message } from "./message"
+import { UserContext } from "./UserContext"
 
 export const loader = async ({ params }) => {
-  const dataContact = params.id
-  const response = await fetch(`/user/${dataContact}`)
+  // const dataContact = params.id
+
+  // const data = userRef
+  // const response = await fetch(`/user/${dataContact}`)
   return "hola"
 }
 
@@ -25,118 +28,65 @@ export const Home = () => {
   // const [messages, setMessages] = useState([])
   // const [nickname, setNickname] = useState("")
   // const [finalnickname, setFinalNickname] = useState("")
-
-  const socket = io("http://localhost:4000", {
-    transports: ["websocket"], // Required when using Vite
-  })
+  const { userRef } = useContext(UserContext)
   // socket.emit("room", room)
 
   useEffect(() => {
     // socket.on("connect", () => {
     // })
     // if (actionData != undefined) {
-
-    socket.on(`room-`, (msg: IsocketReceved) => {
-      const updateMessages = [...messages]
-      updateMessages.push(msg)
-      console.log("state", updateMessages)
-      setMessages(updateMessages)
-    })
+    // socket.on(`room-`, (msg: IsocketReceved) => {
+    //   const updateMessages = [...messages]
+    //   updateMessages.push(msg)
+    //   console.log("state", updateMessages)
+    //   setMessages(updateMessages)
+    // })
     // }
-  }, [socket, messages])
+  })
   // }, [socket])
-
-  // const createNickname = () => {
-  //   setFinalNickname(nickname)
-  // }
 
   // const closeRoom = (room: string) => {
   //   socket.emit("disconect", room)
   // }
-
-  const sendMessage = (room: string, apodo: string) => {
-    // console.log("asdf", room)
-    // const message = inputRef.current.value //Ya lo cogemos del useState
-
-    if (socket) socket.emit("chat", { message, room, apodo })
-    inputRef.current.value = "" //FIXME: how to fix this alert bc of typescript nature
-  }
+  const queryUSer = () => {}
 
   // }, [socketing, actionData]);
   return (
     <div className="bodyHome">
       <aside>
-        <Form>
-          <input type="text" />
-          <button type="submit">Buscar</button>
-        </Form>
-        <h3>Conversaciones Abiertas</h3>
-        {}
+        <div className="boxbusquedaHome">
+          <Form>
+            <input
+              className="busquedaHome"
+              type="text"
+              // style={{ height: "100%", width: "100%" }}
+              onChange={queryUSer}
+            />
+          </Form>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+            fill="#6765e0"
+            className="svgHome"
+          >
+            <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+          </svg>
+          <br />
+        </div>
+        <h3>Chats</h3>
+        <ul>{}</ul>
       </aside>
 
-      <div className="salaRoom">
+      <div className="chatHome">
         <div className="titleRoom">
           {/* <h3>Room: {room}</h3> */}
           <h4>Live Chat</h4>
         </div>
-        <div className="bodyRoom">
-          <div className="chatRoom">
-            <div className="messageBoxRoom">
-              {messages.map(
-                (linea, index) => (
-                  // {
-                  // return (
-                  <Message
-                    key={index}
-                    message={linea.msg}
-                    userLine={linea.user}
-                    index={index}
-                  />
-                )
-                // )
-              )}
-            </div>
+        <div className="bodyRoom"></div>
+        <Outlet />
 
-            <Form>
-              <div className="boxInputRoom">
-                {messages.length != 0 ? <ul id="message"></ul> : null}
-                <div className="userInputRoom">{nickname}</div>
-                <input
-                  placeholder="Enviar un mensaje..."
-                  className="textInputRoom"
-                  ref={inputRef}
-                  id="inputSend"
-                  // name="input"
-                  // autoComplete="off"
-                  contentEditable="true"
-                  role="textbox"
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-                <button
-                  className="buttonInputRoom"
-                  type="submit"
-                  onClick={() => sendMessage(room, finalnickname)}
-                >
-                  Send
-                </button>
-                {/* </div> */}
-              </div>
-            </Form>
-          </div>
-        </div>
-
-        {/* <Form method="POST">
-        <input
-          ref={roomRef}
-          type="text"
-          id="inputCreate"
-          name="name_rom"
-          placeholder="Nombre de la sala"
-        />
-        <button type="submit" onClick={() => createroom()}>
-          Crear sala
-        </button>
-      </Form> */}
         <br />
         {/* <button
         onClick={() => {
