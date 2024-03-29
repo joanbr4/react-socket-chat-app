@@ -2,16 +2,20 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-} from "react-router-dom"
-import "./App.css"
-import { Register, action as registerAction } from "./routes/register"
-import { MainLayout } from "./routes/layout"
-import { Sala, action as salaAction } from "./routes/sala"
-import { Landing, action as homeAction } from "./routes/landing"
+} from "react-router-dom";
+import "./App.css";
+import { Register, action as registerAction } from "./routes/register";
+import { MainLayout } from "./routes/layout";
+import { Sala, action as salaAction } from "./routes/sala";
+import { Landing, action as landingAction } from "./routes/landing";
 // import { Navigation, action as navigationACtion } from "./routes/navigation"
-import { PublicRoute, PrivateRoute } from "./routes/managinRoutes"
-import { Home, loader as homeLoader } from "./routes/home"
-import { Chat, loader as loaderChat } from "./routes/chat"
+import { PublicRoute, PrivateRoute } from "./routes/managinRoutes";
+import {
+  Home,
+  loader as homeLoader,
+  action as homeAction,
+} from "./routes/home";
+import { Chat, loader as loaderChat } from "./routes/chat";
 // import { UserProvider } from "./routes/UserContext"
 
 const router = createBrowserRouter(
@@ -28,7 +32,7 @@ const router = createBrowserRouter(
           element={<Landing />}
           // element={<PublicRoute element={<Home />} />}
           // action={landingAction}
-          action={homeAction}
+          action={landingAction}
           // loader={gameLoader}
         />
         <Route
@@ -43,7 +47,7 @@ const router = createBrowserRouter(
           // path="/home/:user"
           element={<Home />}
           // element={<PrivateRoute element={<Sala />} />}
-          action={salaAction}
+          action={homeAction}
           loader={homeLoader}
         >
           <Route path="/home/:user" element={<Chat />} loader={loaderChat} />
@@ -53,6 +57,6 @@ const router = createBrowserRouter(
       <Route path="/signIn" element={<Register />} action={registerAction} />
     </>
   )
-)
+);
 
-export default router
+export default router;
