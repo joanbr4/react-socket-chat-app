@@ -42,6 +42,7 @@ export {
   IcontrollerExpress,
   IdataRegister,
   IdbMessage,
+  Imessage,
   IcustomRequest,
   IDTOsocket,
   IusersXroom,

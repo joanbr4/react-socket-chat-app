@@ -1,33 +1,33 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react"
 import {
   Form,
   redirect,
   useActionData,
   useNavigate,
   useParams,
-} from "react-router-dom";
-import { socket } from "./socket";
-import { Message } from "./message";
+} from "react-router-dom"
+import { socket } from "../backend/socket"
+import { Message } from "../components/message"
 
 interface Ichat {
-  data: FormDataEntryValue;
+  data: FormDataEntryValue
 }
 
 interface IsocketReceved {
-  message: string;
+  message: string
   // text: { msg: string; user: string }[]
-  apodo: string;
+  apodo: string
 }
 
 export const action = async ({
   request,
 }: {
-  request: Request;
+  request: Request
 }): Promise<Ichat> => {
   // const result = await fetch("/socket.io/socket.io.js")
-  const formData = await request.formData();
-  const dataObject = Object.fromEntries(formData);
-  return { data: dataObject.input };
+  const formData = await request.formData()
+  const dataObject = Object.fromEntries(formData)
+  return { data: dataObject.input }
   // if (formData) {
   //   socket.emit("chat message", dataObject.input, (response: string) => {
   //     console.log(response)
@@ -35,62 +35,62 @@ export const action = async ({
   //   })
   // }
   // console.log(dataObject)
-};
+}
 
 export function Sala() {
-  const { id: room } = useParams();
-  const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const { id: room } = useParams()
+  const navigate = useNavigate()
+  const inputRef = useRef(null)
   // const socket = useRef(null)
   // const roomRef = useRef(null)
-  const [count, setCount] = useState(0);
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [nickname, setNickname] = useState("");
-  const [finalnickname, setFinalNickname] = useState("");
-  console.log("msg", message);
-  console.log("msgs", messages.length);
-  console.log("F", finalnickname);
+  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState("")
+  const [messages, setMessages] = useState([])
+  const [nickname, setNickname] = useState("")
+  const [finalnickname, setFinalNickname] = useState("")
+  console.log("msg", message)
+  console.log("msgs", messages.length)
+  console.log("F", finalnickname)
   //Count user even no sending any mssg
 
   socket.on("count Users", (totalUsers) => {
-    console.log("totalUsers", totalUsers);
-    setCount(totalUsers);
-  });
+    console.log("totalUsers", totalUsers)
+    setCount(totalUsers)
+  })
 
   useEffect(() => {
     if (finalnickname != "") {
-      socket.emit("count Users", { room, finalnickname, status: true });
+      socket.emit("count Users", { room, finalnickname, status: true })
     }
     socket.on(`public-${room}`, (msg: IsocketReceved) => {
       // socket.on(`room-${room}`, (msg: IsocketReceved) => {
-      const updateMessages = [...messages];
-      updateMessages.push(msg);
-      console.log("state", updateMessages);
-      setMessages(updateMessages);
-    });
+      const updateMessages = [...messages]
+      updateMessages.push(msg)
+      console.log("state", updateMessages)
+      setMessages(updateMessages)
+    })
 
     // }
     // }, [])
-  }, [socket, messages, room, finalnickname]);
+  }, [socket, messages, room, finalnickname])
   // }, [socket])
 
   const createNickname = () => {
-    socket.emit("count Users", { room, finalnickname, status: true });
-    setFinalNickname(nickname);
-  };
+    socket.emit("count Users", { room, finalnickname, status: true })
+    setFinalNickname(nickname)
+  }
 
   const closeRoom = (room: string) => {
-    socket.emit("count Users", { room, finalnickname, status: false });
-    socket.close();
-    navigate("/");
-  };
+    socket.emit("count Users", { room, finalnickname, status: false })
+    socket.close()
+    navigate("/")
+  }
 
   const sendMessage = (room: string, apodo: string) => {
-    if (socket) socket.emit("public-chat", { message, room, apodo });
+    if (socket) socket.emit("public-chat", { message, room, apodo })
 
-    inputRef.current.value = ""; //FIXME: how to fix this alert bc of typescript nature
-  };
+    inputRef.current.value = "" //FIXME: how to fix this alert bc of typescript nature
+  }
 
   // }, [socketing, actionData]);
   return (
@@ -98,7 +98,7 @@ export function Sala() {
       <div className="titleRoom">
         <button
           onClick={() => {
-            closeRoom(room as string);
+            closeRoom(room as string)
             // navigate("/")
           }}
         >
@@ -179,5 +179,5 @@ export function Sala() {
         Volver
       </button> */}
     </div>
-  );
+  )
 }

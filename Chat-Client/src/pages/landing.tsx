@@ -1,8 +1,8 @@
 import { useContext, useDebugValue, useEffect, useState } from "react"
 import { NavLink, redirect, useActionData, useNavigate } from "react-router-dom"
-import { Footer } from "./footer"
+import { Footer } from "../components/footer"
 import Cookies from "js-cookie"
-import { UserContext } from "./UserContext"
+import { UserContext } from "./layouts/UserContext"
 // import { CookiesProvider, useCookies } from "react-cookie"
 
 export const action = async ({ request }: { request: Request }) => {

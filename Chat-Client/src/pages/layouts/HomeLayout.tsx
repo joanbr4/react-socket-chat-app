@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import { Navigation } from "./navigation"
+import { Navigation } from "../../components/navigation"
 import Cookies from "js-cookie"
 import { useState, createContext, useContext } from "react"
 // import { Footer } from "./footer"
@@ -12,7 +12,7 @@ import { UserContext, UserProvider } from "./UserContext"
 //   return "hola"
 // }
 
-const MainLayout = () => {
+const HomeLayout = () => {
   // const [user, setUser] = useState(null)
 
   const dataCookie = Cookies.get("dataUSer")
@@ -33,4 +33,4 @@ const MainLayout = () => {
   )
 }
 
-export { MainLayout }
+export { HomeLayout }

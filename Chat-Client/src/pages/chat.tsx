@@ -1,9 +1,16 @@
 import { useContext, useEffect, useRef, useState } from "react"
-import { Form, Params, useLoaderData, useParams } from "react-router-dom"
-import { UserContext } from "./UserContext"
-import { socket } from "./socket"
-import { Message } from "./message"
+import {
+  Form,
+  Params,
+  useLoaderData,
+  useOutletContext,
+  useParams,
+} from "react-router-dom"
+import { UserContext } from "./layouts/UserContext"
+import { socket } from "../backend/socket"
+import { Message } from "../components/message"
 import Cookies from "js-cookie"
+import { getChat } from "../hooks/controllers"
 
 export const loader = async ({ params }: { params: Params }) => {
   const userWith = params.user
@@ -12,15 +19,8 @@ export const loader = async ({ params }: { params: Params }) => {
   console.log("23423", user, userWith)
   // console.log("23423", token)
   try {
-    const response = await fetch(`/chat/${user}/${userWith}`, {
-      headers: {
-        // Authorization: "Bearer ",
-        Authorization: "Bearer " + token,
-        // "Content-Type": "application/json",
-      },
-      method: "GET",
-      credentials: "include",
-    })
+    const response = await getChat(user, userWith, token)
+
     console.log("wer", response.status)
     if (response.status !== 200) {
       return { msg: "Still no chat" }
@@ -33,9 +33,14 @@ export const loader = async ({ params }: { params: Params }) => {
     console.log("errrr", err)
   }
 }
-
+interface Idb {
+  _id: string
+  pair_writers: string
+  messages: Array<{ write: string; message: string }>
+}
 const Chat = () => {
-  const dataLoader = useLoaderData()
+  const dataLoader = useLoaderData() as Idb
+  console.log("Chat", dataLoader)
   const inputRef = useRef(null)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
@@ -45,6 +50,15 @@ const Chat = () => {
   const sortedRoom = [writer, user].sort()
   const nameRoom = `${sortedRoom[0]} ${sortedRoom[1]}`
   console.log(nameRoom)
+  useEffect(() => {
+    // if (dataLoader == Idb) {
+    if (dataLoader?.pair_writers != undefined) {
+      const listMessages = [...dataLoader.messages]
+      console.log(listMessages)
+      setMessages(listMessages)
+    }
+  }, [dataLoader])
+
   useEffect(() => {
     socket.emit("private-chat", nameRoom)
     socket.on(`${nameRoom}`, (chat) => {
@@ -69,13 +83,13 @@ const Chat = () => {
           messages.map((msg: IsocketReceved, index) => (
             <Message
               key={index}
-              message={msg.text}
-              apodo={msg.user}
+              message={msg.message}
+              apodo={msg.writer}
               index={index}
             />
           ))
         ) : (
-          <p>{userRef.current.nickname} se ha conectado...</p>
+          <p>Ya puede empezar la conversacion</p>
         )}
       </div>
 

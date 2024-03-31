@@ -28,7 +28,8 @@ mongoose
     console.log("Connected to MongoDB!")
     // console.log("AllUSers:", allUser)
     console.log("lastUser:", allUser.at(-1))
-    console.log("count:", allUser.length)
+    // console.log("count:", allUser.length)
+    // await ChatModel.deleteMany({}) // To delete all mock chats
   })
   .catch((err) => {
     console.log("error!!")
@@ -42,7 +43,7 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  username: {
+  surname: {
     type: String,
     required: true,
   },
