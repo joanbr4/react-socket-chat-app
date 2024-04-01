@@ -1,12 +1,22 @@
-import { ReactNode, createContext, useContext, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
-// import { Props } from "react-select/base"
-const UserContext = createContext(null)
+import { ReactNode, createContext, useRef } from "react"
 import Cookies from "js-cookie"
 
-const UserProvider = ({ children }) => {
-  // const UserProvider = ({ children }: { children: ReactNode }) => {
-  const userRef = useRef(null)
+export interface IuserContextData {
+  userRef: React.MutableRefObject<IuserStructure | null>
+  login(data: IuserStructure): void
+}
+export interface IuserStructure {
+  email: string
+  genere: string
+  name: string
+  nickname: string
+  _id: string
+}
+
+const UserContext = createContext<IuserContextData | null>(null)
+
+const UserProvider = ({ children }: { children: ReactNode }) => {
+  const userRef = useRef<IuserStructure | null>(null) //for assert mutable values of useRef
   // const [user, setUser] = useState(null)
   console.log("dataREf", userRef)
   const dataCookie = Cookies.get("dataUser")
@@ -16,9 +26,8 @@ const UserProvider = ({ children }) => {
   }
   console.log("dataContext", dataCookie)
 
-  const login = (userData: any) => {
+  const login = (userData: IuserStructure) => {
     userRef.current = userData
-    // setUser(userData)
   }
 
   return (

@@ -8,7 +8,10 @@ import { Document, Model } from "mongoose"
 import { ChatModel, UserModel } from "../database/mongoose"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-
+import fs, { writeFile } from "fs"
+import conf from "../../config/default"
+import qs from "qs"
+import config from "config"
 export const register = async (
   data: IdataRegister
   // data: Document<IdataRegister>
@@ -142,4 +145,89 @@ export const createChat = async (room: string) => {
     messages: [],
   })
   return newChat.save()
+}
+export const addRoom = async (room: string) => {
+  console.log("roomy:", room)
+  try {
+    const resp = await fs.promises.readFile(
+      "./src/infrastructure/database/room.ts",
+      "utf8"
+      // {
+      //   content-type: "application/json"
+      // }
+    )
+    // const jsonResponse =  await resp.json()
+    console.log("rooms:", resp)
+    const [na, roomString, userxroomString] = resp.split("export")
+    console.log("array:", roomString, "object:", userxroomString)
+    const roomArrray = roomString
+      .split("=")[1]
+      .replace("[", "")
+      .replace("]", "")
+      .replace(/\"/g, "")
+      .split(",")
+      .map((room) => room.trim())
+    if (roomArrray.includes(room)) {
+      return
+    }
+    roomArrray.push(room)
+
+    const userXobjectValues = userxroomString.split("=")[1].split(",")
+    const indexAdd = userXobjectValues.length - 1
+    const newValue = `\r\n  ${room}: new Set()`
+    userXobjectValues.splice(indexAdd, 0, newValue)
+    const stringObject = userXobjectValues.join(",")
+    console.log("2", stringObject)
+    // const userXobject2 = eval("(" + userXobjectValues + ")")
+    // console.log("fumada2", userXobject2)
+
+    // userXobject2[room] = new Set()
+    // console.log(
+    //   "array:",
+    //   roomArrray,
+    //   "object",
+    //   userXobject2,
+    //   "inter",
+    //   userXobject4
+    // )
+    // Execute the code string to obtain the dynamic JavaScript object
+    // const dynamicObject = executeCode()
+    const updateArray = `export const rooms = [${roomArrray
+      .map((room) => `'${room}'`)
+      .join(", ")}]`
+    const updateObject = "export let usersXroom = " + stringObject
+    // "export let userxroom = " + JSON.stringify(userXobject2, null, 2)
+    await fs.promises.writeFile(
+      "./src/infrastructure/database/room.ts",
+      updateArray + "\n\n" + updateObject
+    )
+  } catch (err) {
+    console.log("error:", err)
+    throw new Error("algo uah petado")
+  }
+}
+
+export async function getGoogleOauthTokens({ code }: { code: string }) {
+  const url = `http://oauth2.googleapis.com/token`
+
+  const values = {
+    code,
+    client_id: config.get("googleClientId"), //FIXME WHAT does config dependency, search every var in whole project?
+    client_secret: config.get("googleClientSecret"),
+    redirect_type: config.get("googleOauthRedirectUrl"),
+    grant_type: "authorization_code",
+  }
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: qs.stringify(values),
+    })
+
+    return res.body
+  } catch (err: any) {
+    console.error(err, "Failed to fetch google Oauth Tokens")
+  }
 }

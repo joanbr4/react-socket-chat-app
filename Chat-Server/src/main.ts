@@ -4,25 +4,17 @@ import router from "./infrastructure/routes/express-router"
 import { createServer } from "http"
 import { Server } from "socket.io"
 import cors from "cors"
-
-// import { client } from "./infrastructure/database/mongoose"
-import mongoose from "mongoose"
 import { IDTOsocket, IdbMessage, IusersXroom } from "./domain/model"
-import { ChatModel } from "./infrastructure/database/mongoose"
+import conf from "./config/default"
 import {
+  addRoom,
   createFirstMessage,
   findchat,
   pushMessage,
 } from "./infrastructure/services/user.services"
-
-const {
-  PORT: port,
-  ME_CONFIG_MONGODB_ADMINUSERNAME: root,
-  ME_CONFIG_MONGODB_ADMINPASSWORD: example,
-  ME_CONFIG_MONGODB_URL: docker_uri_express,
-  ME_INITDB_MONGODB_URL: docker_uri_mongo,
-} = process.env
-
+import { rooms, usersXroom } from "./infrastructure/database/room"
+// const port = process.env.PORT || 2790
+console.log(conf.port)
 const app = express()
 const server = createServer(app)
 
@@ -43,25 +35,28 @@ let userChatting = 0
 let chat: IdbMessage[] = []
 app.use("/api", router)
 
-const rooms = ["tecnologia", "cultural", "deportes"]
-let usersXroom: {
-  tecnologia: Set<string>
-  cultura: Set<string>
-  deportes: Set<string>
-} = {
-  tecnologia: new Set(),
-  cultura: new Set(),
-  deportes: new Set(),
-}
-// const usersXroom: IusersXroom = { tecnologia: [], cultural: [], deportes: [] }
-
+// const rooms = ["tecnologia", "cultura", "deportes", "hot"]
+// let usersXroom: {
+//   tecnologia: Set<string>
+//   cultura: Set<string>
+//   deportes: Set<string>
+//   hot: Set<string>
+// } = {
+//   tecnologia: new Set(),
+//   cultura: new Set(),
+//   deportes: new Set(),
+//   hot: new Set(),
+// }
 io.on("connection", (socket) => {
   // console.log("Client connected:", socket.id)
 
   //Socket to count live users
-  socket.on("count Users", (data) => {
+  socket.on("count Users", async (data) => {
     console.log("fromClient", data)
     const { room, finalnickname, status } = data
+    if (!rooms.includes(room)) {
+      await addRoom(room)
+    }
     const roomKey = room as keyof typeof usersXroom //assert room is a key of object
     const usersData = Array.from(usersXroom[roomKey])
     const num = usersData.length
@@ -84,12 +79,11 @@ io.on("connection", (socket) => {
   //reflecting from public socket to public socket
   socket.on("public-chat", (msg: IDTOsocket) => {
     const { message, room, apodo } = msg
-
     io.emit(`public-${room}`, { message, apodo }) //io. let send to ourselve and everyone
   })
-  socket.on("private-chat", (nameRoom) => {
-    console.log("private", nameRoom)
 
+  socket.on("private-chat", (nameRoom) => {
+    // console.log("private", nameRoom)
     socket.join(nameRoom)
   })
 
@@ -114,32 +108,12 @@ io.on("connection", (socket) => {
       await pushMessage(room, dataToInsert)
       const chat = await findchat(room)
       console.log("ch", chat)
-
-      // ChatModel.updateOne(
-      //   { pair_writers: room },
-      //   { $push: { messages: dataToInsert } }
-      // );
     }
-    // const roomExisted = chat.findIndex((item) => item.room === room)
-    // if (roomExisted == -1)
-    //   chat.push({ room: room, messages: [{ msg: message, user: apodo }] })
-    // else chat[roomExisted].messages.push({ msg: message, user: apodo })
 
-    // console.log("Array:", chat)
-
-    // const roomIndex = chat.findIndex((item) => item.room === room)
-    // io.to(room).emit(`room-${room}`, {
-    //   // text: message,
-    //   text: chat[roomIndex].messages,
-    //   user: apodo,
-    //   // room: room,
-    // }) //send noti to ourselves with io.in()
     // socket.to(room).emit("chat", listMessage);// not send noti to ourselves with socket.in()
     io.to(room).emit(`${room}`, {
       message: message,
-      // message,
       writer: writer,
-      // room: room,
     }) //send noti to ourselves with io.in()
     // socket.to(room).emit("chat", listMessage);// not send noti to ourselves with socket.in()
   })
@@ -154,6 +128,6 @@ io.on("connection", (socket) => {
   })
 })
 
-server.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`)
+server.listen(conf.port, () => {
+  console.log(`Server is running on http://localhost:${conf.port}`)
 })

@@ -17,8 +17,6 @@ export const loginOne = async (req: Request, res: Response) => {
     res.status(404).send("Not valid login")
   } else {
     //to clear old cookies of previous cookies project
-    // res.clearCookie("larita")
-    // res.clearCookie("lara@gmail.com")
     // res.clearCookie("dataUSer")
     res.cookie("token", queryUser?.token, {
       // httpOnly: true,
@@ -93,4 +91,23 @@ export const createChatOne = async (
   const sorted = [owner, chatWith].sort()
   const nameRoom = `${sorted[0]} ${sorted[1]}`
   await userServices.createChat(nameRoom) //FIXME: WHAT If try to add someone already added?
+}
+
+export const addRoomOne = async (req: Request, res: Response) => {
+  const room = req.params.room
+  console.log(room)
+  try {
+    await userServices.addRoom(room)
+    res.status(200).send("nice added room")
+  } catch (err) {
+    console.log(err)
+    res.status(400).send("Fail somethg")
+  }
+}
+
+export const cloudOne = async (req: Request, res: Response) => {
+  const cloud = req.params.cloud //endopoint dinamic
+  const code = req.query.code //query from cloud oauth
+  console.log("sd", cloud)
+  res.status(200).send(cloud)
 }

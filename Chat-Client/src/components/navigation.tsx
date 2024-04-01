@@ -1,7 +1,9 @@
+// import "dotenv/config"
 import { useContext } from "react"
 import { useNavigate, NavLink, Form, useActionData } from "react-router-dom"
 import { UserContext } from "../pages/layouts/UserContext"
 import Cookies from "js-cookie"
+import getGoogleOauthURL from "../utils/getGoogleUrl"
 
 export const Navigation = () => {
   // const dataAction = useActionData()
@@ -12,6 +14,7 @@ export const Navigation = () => {
 
   const logout = () => {
     Cookies.remove("dataUser") //works!!
+    localStorage.removeItem("user")
     userRef.current = null
     navigate("/")
   }
@@ -29,23 +32,30 @@ export const Navigation = () => {
                 type="email"
                 className="inputNav"
                 name="email"
-                placeholder="Write your email"
+                placeholder="Email"
+                style={{ paddingLeft: 5 }}
               />
               <input
                 type="password"
                 className="inputNav"
                 name="passw"
                 placeholder="Password"
+                style={{ paddingLeft: 5 }}
               />
-              <button type="submit" className="butNav">
-                Log in
-              </button>
+              <div>
+                <button type="submit" className="butNav">
+                  Log in
+                </button>
+                <button>
+                  <NavLink to={getGoogleOauthURL()}>Google In</NavLink>
+                </button>
+                <button className="butNav">
+                  <NavLink className="butNav" to="/signIn">
+                    Sign In
+                  </NavLink>
+                </button>
+              </div>
             </Form>
-            <button className="butNav">
-              <NavLink className="butNav" to="/signIn">
-                Sign In
-              </NavLink>
-            </button>
             <div className="errorMsg"></div>
           </div>
         </div>

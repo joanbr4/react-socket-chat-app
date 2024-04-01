@@ -9,7 +9,14 @@
   min-height: 100vh;
   /* justify-content: flex-end; */
   /* height: 200px; */
-  /* position: relative; */
+  position: relative;
+  color-scheme: light dark;
+}
+input {
+  border-style: none;
+  &:focus {
+    outline: none;
+  }
 }
 
 .logo {
@@ -50,7 +57,7 @@
 .Nav {
   background-color: #535bf2;
   /* text-align: center; */
-  /* height: 80px; */
+  height: 100%;
   .barNav {
     display: flex;
     flex-direction: row;
@@ -60,17 +67,21 @@
     /* text-align: center; */
     max-width: 1200px;
     margin: auto;
+    padding: 0px 10px;
     h3 {
       color: #fff;
-      font-size: 50px;
+      /* font-size: 3rem; */
+      font-size: calc(1rem + 2.8vw);
       margin: 0px;
     }
 
     .inputNav {
       border-radius: 8px;
-      height: 25px;
+      height: 35px;
       border: 1px solid transparent;
       margin: 1px;
+      font-size: calc(1rem + 0.6vw);
+      width: 200px;
     }
     .butNav {
       width: 80px;
@@ -79,6 +90,7 @@
       padding-right: 0px;
       margin: 1px;
       color: black;
+      font-size: calc(0.5rem + 0.6vw);
       &:hover {
         background-color: #535bf2;
         color: #fff;
@@ -86,22 +98,67 @@
     }
   }
 }
+
 .bodyLanding {
   /* height: 50vh; */
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  /* padding-bottom: 80px; */
+  align-items: center;
   .boxLanding {
     display: grid;
-    grid-template-columns: 300px 300px;
-    margin: auto;
-    width: 400px;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    /* grid-template-columns: 400px 300px; */
+    justify-items: center;
+    width: 100%;
     .salaLanding {
-      width: 250px;
-      font-size: 12px;
+      width: 550px;
+      font-size: calc(1rem + 0.5vw);
       .textoLanding {
         display: flex;
         flex-direction: row;
       }
     }
+  }
+  .inputBoxLanding {
+    margin-top: 10px;
+    height: 200px;
+    .inputSalaLanding {
+      display: flex;
+      border: 1px solid #535bf2;
+      width: 450px;
+      /* align-content: center; */
+      justify-content: space-between;
+      padding: 0px;
+      margin: auto;
+      border-radius: 0px 7px 7px 0px;
+      height: 50px;
+      input {
+        /* border-bottom: 1px solid black; */
+        padding-left: 5px;
+        font-size: 1.3rem;
+        /* height: 20px; */
+      }
+      button {
+        /* padding: 0px; */
+        background-color: #535bf2;
+        color: light-dark(white, black);
+        border-radius: 0px 5px 5px 0px;
+        font-size: 20px;
+        width: 150px;
+        &:hover {
+          background-color: #8073fa;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 900px) {
+  .bodyLanding .boxLanding {
+    grid-template-columns: repeat(2, minmax(0, 3fr));
+    font-size: calc(0.6rem + 0.6vw);
+    width: 70vw;
   }
 }
 [contentEditable="true"]:empty:not(:focus):before {
@@ -111,38 +168,69 @@
 .bodySala {
   text-align: center;
   width: 100%;
-  height: 100vh-200px;
+  /* height: calc(100vh - 80px); */
+  /* height: 100vh; */
+  /* flex: 1; */
+  /* overflow-y: auto; */
+  overflow: hidden;
+  padding-bottom: 40px;
   .titleRoom {
     display: flex;
+    justify-content: space-around;
+    height: 50px;
+    margin: 0px;
+    border-bottom: 1px solid black;
+    /* overflow-y: scroll; */
     h4,
     h3 {
       margin: 0;
     }
-
-    height: 60px;
-    margin: 0px;
-    border-bottom: 1px solid black;
   }
 
   .boxSala {
     display: flex;
     align-items: center;
     justify-items: center;
-    height: calc(100vh - 300px);
+    scrollbar-gutter: stable both-edges;
+    /* height: 100vh; */
+    height: calc(100vh - 250px);
+    /* height: 100%; */
+    flex-direction: column;
     position: relative;
+    overflow-y: auto;
+    /* width: 100vw; */
     .apodoBoxRoom {
       margin: auto;
+      input {
+        /* outline: auto; */
+        height: 30px;
+        border: 2px solid black;
+        border-radius: 5px;
+      }
+      button {
+        margin-left: 10px;
+        background-color: #535bf2;
+        color: #fff;
+        &:hover {
+          background-color: #6a71f1;
+        }
+      }
     }
     .chatRoom {
       width: 100vw;
       display: flex;
       flex-direction: column;
       position: absolute;
-      top: 0;
-      height: calc(100vh - 300px);
+      justify-content: space-between;
+      /* top: 0; */
+      /* overflow-y: auto; */
+      /* height: calc(100vh - 170px); */
       .messageBoxRoom {
-        display: flex;
-        flex-direction: column;
+        flex: 1;
+        /* display: flex;
+        flex-direction: column; */
+        overflow-y: auto;
+        /* max-height: 90vh; */
         /* align-items: left; */
         .lineRoom {
           display: flex;
@@ -166,17 +254,24 @@
       }
       .boxInputRoom {
         display: flex;
-        position: absolute;
-        bottom: 0;
+        position: fixed;
+        bottom: 0px;
         /* left: auto; */
         width: 100%;
         height: 40px;
+        /* z-index: 1; */
+        box-sizing: border-box;
 
         border-top: 1px solid black;
         .textInputRoom {
+          flex: 1;
           width: 100vw;
           height: 30px;
-          border: 1px solid transparent;
+          /* border: 1px solid transparent; */
+          border-style: none;
+          &:focus {
+            outline: none;
+          }
         }
         .buttonInputRoom {
           margin: 0px;
@@ -275,7 +370,7 @@ i {
     .boxInputRoom {
       display: flex;
       position: absolute;
-      bottom: 0;
+      bottom: 0px;
       /* left: auto; */
       width: 100%;
       height: 40px;
@@ -332,4 +427,13 @@ i {
   flex-direction: column;
   width: 300px;
   align-items: center;
+}
+
+.boxErrorLayout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

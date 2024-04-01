@@ -15,19 +15,18 @@ import { UserContext } from "./layouts/UserContext"
 import { getChatsWith, getSearch } from "../hooks/controllers"
 import { useSearchQuery } from "../hooks/useSearchQuery"
 import { useDebounce } from "../hooks/useDebounce"
-import { Chat } from "./chat"
+// import { Chat } from "./chat"
 
 export const loader = async () => {
   // const dataContact = params.id
+  const token = localStorage.getItem("token")
   const user = localStorage.getItem("user")
-  const response = await getChatsWith(String(user))
+  const response = await getChatsWith(String(user), String(token))
   const jsonResp = await response.json()
   // console.log("json", jsonResp)
 
   return jsonResp
 }
-
-export const action = async ({ request }: { request: Request }) => {}
 
 function useSearch(search: string) {
   const [searching, setSearching] = useState<boolean>(false)
@@ -45,22 +44,16 @@ function useSearch(search: string) {
 }
 
 export const Home = () => {
-  const openChats = useLoaderData() || []
-  const [list, setList] = useState([])
+  const openChats = useLoaderData() as string[]
+  const [list, setList] = useState<string[]>([])
   const [text, setText] = useState<boolean>(false)
   const [search, setSearch] = useState<object[]>([])
   const navigate = useNavigate()
   // console.log("fromLoader", typeof openChats, openChats)
   // const [query, setQuery] = useState("");
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const searchParams = useSearchQuery()
   // const [search] = searchParams
-  // const { q: room } = useParams()
-  // console.log("searcgy", room)
-
-  // const { userRef } = useContext(UserContext)
-  // const submit = useSubmit();
-  // const s = useSearch(search)
 
   useEffect(() => {
     if (openChats.length > 0) {
@@ -85,7 +78,7 @@ export const Home = () => {
   const clearInput = () => {
     setText(false)
     setSearch([])
-    inputRef.current.value = ""
+    inputRef.current!.value = "" // ! non-full assertion operator, declares never is null its value
   }
   return (
     <div className="bodyHome">

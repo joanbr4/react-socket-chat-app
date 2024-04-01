@@ -40,14 +40,15 @@ export const action = async ({
 export function Sala() {
   const { id: room } = useParams()
   const navigate = useNavigate()
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
   // const socket = useRef(null)
   // const roomRef = useRef(null)
-  const [count, setCount] = useState(0)
-  const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState([])
-  const [nickname, setNickname] = useState("")
-  const [finalnickname, setFinalNickname] = useState("")
+  const [count, setCount] = useState<number>(0)
+  const [message, setMessage] = useState<string>("")
+  const [messages, setMessages] = useState<IsocketReceved[]>([])
+  // const [messages, setMessages] = useState<Array<IsocketReceved>>([])//same thing
+  const [nickname, setNickname] = useState<string>("")
+  const [finalnickname, setFinalNickname] = useState<string>("")
   console.log("msg", message)
   console.log("msgs", messages.length)
   console.log("F", finalnickname)
@@ -125,7 +126,7 @@ export function Sala() {
           </div>
         ) : (
           <div className="chatRoom">
-            <div className="messageBoxR oom">
+            <div className="messageBoxRoom">
               {messages.length > 0 ? (
                 messages.map((msg: IsocketReceved, index) => (
                   <Message

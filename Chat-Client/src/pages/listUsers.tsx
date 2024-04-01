@@ -3,16 +3,21 @@ import { createChat } from "../hooks/controllers"
 import { UserContext } from "./layouts/UserContext"
 import { useContext, useEffect, useState } from "react"
 
+interface IOutletContextType {
+  search: object[] // Replace YourSearchType with the actual type of search
+  list: YourListType // Replace YourListType with the actual type of list
+  setList: React.Dispatch<React.SetStateAction<YourListType>> // Replace YourListType with the actual type of list
+}
 interface IdataObject {
   name: string
   nickname: string
   genereal: string
 }
 export function ListUsers() {
-  const { userRef } = useContext(UserContext)
+  const { userRef } = useContext(UserContext) || {}
   const { search, list, setList } = useOutletContext()
-  const [add, setAdd] = useState<boolean>(false)
-  console.log("2sdd", list, search)
+  // const [add, setAdd] = useState<boolean>(false)
+  // console.log("2sdd", list, search)
   // console.log("context", userRef)
   // console.log("listUsers", listUsers)
 
@@ -21,7 +26,7 @@ export function ListUsers() {
   // }, [add])
   const filterSearch = search.filter(
     (item: IdataObject) =>
-      item.nickname !== userRef.current.nickname &&
+      item.nickname !== userRef?.current?.nickname &&
       !list.includes(item.nickname)
   )
 
@@ -29,11 +34,12 @@ export function ListUsers() {
     console.log("addUser", name)
     const copyList = [...list]
     copyList.push(name)
-    createChat(userRef.current.nickname, name)
-    console.log("copyList", copyList)
+    userRef?.current?.nickname && createChat(userRef.current.nickname, name) //confirm exist nickname Value instead if condition
+    // console.log("copyList", copyList)
 
     setList(copyList)
   }
+
   return (
     <>
       <h1>ListUsers</h1>

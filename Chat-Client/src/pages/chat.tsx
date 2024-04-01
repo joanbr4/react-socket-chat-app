@@ -14,7 +14,7 @@ import { getChat } from "../hooks/controllers"
 
 export const loader = async ({ params }: { params: Params }) => {
   const userWith = params.user
-  const token = localStorage.getItem("authToken")
+  const token = localStorage.getItem("token")
   const user = localStorage.getItem("user")
   console.log("23423", user, userWith)
   // console.log("23423", token)
@@ -41,7 +41,7 @@ interface Idb {
 const Chat = () => {
   const dataLoader = useLoaderData() as Idb
   console.log("Chat", dataLoader)
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
   const { userRef } = useContext(UserContext)

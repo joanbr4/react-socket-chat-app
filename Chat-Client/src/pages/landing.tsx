@@ -1,9 +1,15 @@
-import { useContext, useDebugValue, useEffect, useState } from "react"
-import { NavLink, redirect, useActionData, useNavigate } from "react-router-dom"
+import { useContext, useEffect, useState } from "react"
+import {
+  Form,
+  NavLink,
+  redirect,
+  useActionData,
+  useNavigate,
+} from "react-router-dom"
 import { Footer } from "../components/footer"
 import Cookies from "js-cookie"
-import { UserContext } from "./layouts/UserContext"
-// import { CookiesProvider, useCookies } from "react-cookie"
+import { IuserStructure, UserContext } from "./layouts/UserContext"
+import { createSala } from "../hooks/controllers"
 
 export const action = async ({ request }: { request: Request }) => {
   // const [cookie, setCookie] = useCookies(["userData"])
@@ -24,16 +30,10 @@ export const action = async ({ request }: { request: Request }) => {
   if (response.status !== 200) {
     // const tokenError = await response.text()
     return redirect("/")
-    // return tokenError
   } else {
     //including credentials, we can handle cookie data as well
     const parseCookie = await response.json()
 
-    // getting cookie data as coomonJS mode
-    // const cookies = document.cookie.toString().split(";")
-    // const partCookie = cookies[0].split("=")[1]
-    // const decodedCookie = decodeURIComponent(partCookie)
-    // const parseCookie = JSON.parse(decodedCookie)
     console.log("awe", parseCookie)
     localStorage.setItem("token", parseCookie.token)
     localStorage.setItem("user", parseCookie.user.nickname)
@@ -45,25 +45,28 @@ export const action = async ({ request }: { request: Request }) => {
     // const dataCookie = JSON.parse(Cookies.get(`${data.email}`))
 
     return dataCookie
-    // return redirect(`/home`)
-    // return redirect(`/home/${nickname}`)
   }
 }
 
 export const Landing = () => {
-  const dataAction = useActionData()
+  const dataAction = useActionData() as IuserStructure
   const navigate = useNavigate()
   const [room, setRoom] = useState("")
-  const { login } = useContext(UserContext)
 
+  const userContext = useContext(UserContext)
+  const login = userContext ? userContext.login : undefined
   useEffect(() => {
-    if (dataAction != undefined) {
+    if (dataAction != undefined && login != undefined) {
       login(dataAction)
       navigate("/home")
     }
   }, [dataAction])
-  // const [currentUser, setCurrentUSer] = useContext(CurrentUserContext)
 
+  const createRoom = async (name: string) => {
+    console.log("name: ", name)
+    await createSala(name)
+    navigate(`sala/${name}`)
+  }
   return (
     <>
       <div className="bodyLanding">
@@ -77,12 +80,13 @@ export const Landing = () => {
               <img
                 src="public/IA_inteligencia_artificial-510x510.jpg"
                 alt="foto"
-                width={70}
+                width={90}
+                height={90}
               />
-              <div>
+              <p>
                 Bienvenidos al canal para charlas de cosas tecnologicas, todos
                 son bienvenidos
-              </div>
+              </p>
             </div>
           </div>
           <div className="salaLanding">
@@ -90,11 +94,16 @@ export const Landing = () => {
               <h4>Sala Cultural</h4>
             </NavLink>
             <div className="textoLanding">
-              <img src="public/imagen_1_1508257076.jpg" alt="foto" width={70} />
-              <div>
+              <img
+                src="public/imagen_1_1508257076.jpg"
+                alt="foto"
+                width={90}
+                height={90}
+              />
+              <p>
                 Bienvenidos al canal para mantener charlas intelectuales, todos
                 son bienvenidos
-              </div>
+              </p>
             </div>
           </div>
           <div className="salaLanding">
@@ -102,11 +111,16 @@ export const Landing = () => {
               <h4>Sala Deportes</h4>
             </NavLink>
             <div className="textoLanding">
-              <img src="public/03-deportes_3.png.jpg" alt="foto" width={70} />
-              <div>
+              <img
+                src="public/03-deportes_3.png.jpg"
+                alt="foto"
+                width={90}
+                height={90}
+              />
+              <p>
                 Bienvenidos al canal para discutir de todo contra todos, todos
                 son bienvenidos
-              </div>
+              </p>
             </div>
           </div>
           <div className="salaLanding">
@@ -117,43 +131,49 @@ export const Landing = () => {
               <img
                 src="public/f.elconfidencial.com_original_b42_e1c_33f_b42e1c33f447e1327f4d7176a42197b4.jpg"
                 alt="foto"
-                width={70}
+                width={90}
+                height={90}
               />
-              <div>
+              <p>
                 Bienvenidos al canal para mantener conversaciones picantes, solo
                 los registrado pueden acceder
-              </div>
+              </p>
             </div>
           </div>
         </div>
         <br />
-        Quieres crear tu propia sala con una temática especial, muy fácil,
-        rellena el cuadro siguiente y ya puedes empezar a chatear
-        <form>
-          <input
-            type="text"
-            id="inputCreate"
-            name="create_rom"
-            placeholder="Nombre de la sala"
-            onChange={(e) => setRoom(e.target.value)}
-          />
-          <button type="submit" onClick={() => navigate(`sala/${room}`)}>
-            Crear sala
-          </button>
-        </form>
-        Quieres entrar en una sala ya creada?
-        <form>
-          <input
-            type="text"
-            id="inputJoin"
-            name="join_rom"
-            placeholder="Nombre de la sala"
-            onChange={(e) => setRoom(e.target.value)}
-          />
-          <button type="submit" onClick={() => navigate(`sala/${room}`)}>
-            Unirte sala
-          </button>
-        </form>
+        <div className="inputBoxLanding">
+          <h3>
+            Quieres crear tu propia sala con una temática especial, muy fácil,
+            rellena el cuadro siguiente y ya puedes empezar a chatear
+          </h3>
+          <Form className="inputSalaLanding">
+            <input
+              type="text"
+              id="inputCreate"
+              name="create_rom"
+              placeholder="Nombre de la sala"
+              onChange={(e) => setRoom(e.target.value)}
+            />
+            <button type="submit" onClick={() => createRoom(room)}>
+              Crear sala
+            </button>
+          </Form>
+          Quieres entrar en una sala ya creada?
+          <form className="inputSalaLanding">
+            <input
+              type="text"
+              id="inputJoin"
+              name="join_rom"
+              placeholder="Nombre de la sala"
+              onChange={(e) => setRoom(e.target.value)}
+            />
+            <button type="submit" onClick={() => createRoom(room)}>
+              {/* <button type="submit" onClick={() => navigate(`sala/${room}`)}> */}
+              Unirte sala
+            </button>
+          </form>
+        </div>
       </div>
       <Footer />
     </>
