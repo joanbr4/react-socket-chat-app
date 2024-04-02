@@ -5,7 +5,6 @@ import { createServer } from "http"
 import { Server } from "socket.io"
 import cors from "cors"
 import { IDTOsocket, IdbMessage, IusersXroom } from "./domain/model"
-import conf from "./config/default"
 import {
   addRoom,
   createFirstMessage,
@@ -13,8 +12,9 @@ import {
   pushMessage,
 } from "./infrastructure/services/user.services"
 import { rooms, usersXroom } from "./infrastructure/database/room"
-// const port = process.env.PORT || 2790
-console.log(conf.port)
+
+const PORT = process.env.PORT || 4000
+
 const app = express()
 const server = createServer(app)
 
@@ -128,6 +128,6 @@ io.on("connection", (socket) => {
   })
 })
 
-server.listen(conf.port, () => {
-  console.log(`Server is running on http://localhost:${conf.port}`)
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`)
 })

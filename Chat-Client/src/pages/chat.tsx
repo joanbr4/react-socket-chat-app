@@ -78,7 +78,7 @@ const Chat = () => {
 
   return (
     <div className="chatRoom">
-      <div className="messageBoxR oom">
+      <div className="messageBoxRoom">
         {messages.length > 0 ? (
           messages.map((msg: IsocketReceved, index) => (
             <Message
@@ -95,19 +95,20 @@ const Chat = () => {
 
       <Form>
         <div className="boxInputRoom">
-          {messages.length != 0 ? <ul id="message"></ul> : null}
-          <div className="userInputRoom">{userRef.current.nickname}</div>
-          <input
-            placeholder="Enviar un mensaje..."
-            className="textInputRoom"
-            ref={inputRef}
-            id="inputSend"
-            // name="input"
-            // autoComplete="off"
-            contentEditable="true"
-            role="textbox"
-            onChange={(e) => setMessage(e.target.value)}
-          />
+          <div className="boxUsernameRoom">
+            <div className="userInputRoom">{userRef.current.nickname}</div>
+            <input
+              placeholder="Enviar un mensaje..."
+              className="textInputRoom"
+              ref={inputRef}
+              id="inputSend"
+              // name="input"
+              // autoComplete="off"
+              contentEditable="true"
+              role="textbox"
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </div>
           <button
             className="buttonInputRoom"
             type="submit"

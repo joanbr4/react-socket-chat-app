@@ -3,7 +3,6 @@ import { useContext } from "react"
 import { useNavigate, NavLink, Form, useActionData } from "react-router-dom"
 import { UserContext } from "../pages/layouts/UserContext"
 import Cookies from "js-cookie"
-import getGoogleOauthURL from "../utils/getGoogleUrl"
 
 export const Navigation = () => {
   // const dataAction = useActionData()
@@ -15,6 +14,7 @@ export const Navigation = () => {
   const logout = () => {
     Cookies.remove("dataUser") //works!!
     localStorage.removeItem("user")
+    localStorage.removeItem("token")
     userRef.current = null
     navigate("/")
   }
@@ -46,9 +46,9 @@ export const Navigation = () => {
                 <button type="submit" className="butNav">
                   Log in
                 </button>
-                <button>
+                {/* <button>
                   <NavLink to={getGoogleOauthURL()}>Google In</NavLink>
-                </button>
+                </button> */}
                 <button className="butNav">
                   <NavLink className="butNav" to="/signIn">
                     Sign In

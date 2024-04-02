@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { IdataLogin } from "../../domain/model"
 import * as userServices from "../services/user.services"
 import jwt from "jsonwebtoken"
+import config from "config"
 
 export const loginOne = async (req: Request, res: Response) => {
   // const oldcookies =  req.cookies
@@ -106,8 +107,29 @@ export const addRoomOne = async (req: Request, res: Response) => {
 }
 
 export const cloudOne = async (req: Request, res: Response) => {
-  const cloud = req.params.cloud //endopoint dinamic
-  const code = req.query.code //query from cloud oauth
-  console.log("sd", cloud)
-  res.status(200).send(cloud)
+  // const cloud = req.params.cloud //endopoint dinamic
+  try {
+    const code = req.query.code as string //query from cloud oauth
+    console.log(code)
+
+    const { token_type, access_token } =
+      await userServices.getGoogleOauthTokens({
+        code,
+      })
+    console.log("pair:", { token_type, access_token })
+
+    const googleUser = await userServices.getGoogleUser({
+      token_type,
+      access_token,
+    })
+    // console.log(googleUser)
+    // if (!googleUser.verified_email) {
+    //   res.status(403).send("Google account is not verified")
+    // }
+    // const googleUser = jwt.decode(id_token)
+  } catch (err: unknown) {
+    console.error(err, "Failed to authorize Google User")
+    res.redirect(`${config.get("originWeb")}/oauth/error`)
+  }
+  // res.status(200).send(cloud)
 }

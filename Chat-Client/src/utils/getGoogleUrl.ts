@@ -13,7 +13,7 @@ function getGoogleOauthURL() {
       "https://www.googleapis.com/auth/userinfo.email",
     ].join(" "),
   }
-  console.log("AUTH:", { options })
+  console.log("options:", { options })
   const qs = new URLSearchParams(options)
 
   console.log("Query Strings:", qs.toString())

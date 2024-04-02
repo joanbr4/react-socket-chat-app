@@ -17,6 +17,6 @@ router.get("/search/:query", userController.searchOne)
 
 router.post("/rooms/:room", userController.addRoomOne)
 
-router.post("/sessions/oauth/:cloud", userController.cloudOne)
+router.get("/sessions/oauth/google", userController.cloudOne)
 
 export default router

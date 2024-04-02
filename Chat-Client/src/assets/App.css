@@ -80,7 +80,7 @@ input {
       height: 35px;
       border: 1px solid transparent;
       margin: 1px;
-      font-size: calc(1rem + 0.6vw);
+      font-size: calc(0.5rem + 0.6vw);
       width: 200px;
     }
     .butNav {
@@ -90,7 +90,7 @@ input {
       padding-right: 0px;
       margin: 1px;
       color: black;
-      font-size: calc(0.5rem + 0.6vw);
+      font-size: calc(0.4rem + 0.6vw);
       &:hover {
         background-color: #535bf2;
         color: #fff;
@@ -186,7 +186,6 @@ input {
       margin: 0;
     }
   }
-
   .boxSala {
     display: flex;
     align-items: center;
@@ -284,7 +283,7 @@ input {
 #sidebar nav {
   flex: 1;
   overflow: auto;
-  padding-top: 1rem;
+  /* padding-top: 1rem; */
 }
 
 #sidebar nav a span {
@@ -339,51 +338,113 @@ i {
   color: hsl(224, 98%, 58%);
 }
 .bodyHome {
+  margin: auto;
+  scrollbar-gutter: stable both-edges;
   display: flex;
-  height: calc(100vh - 100px);
-  .boxbusquedaHome {
-    display: flex;
-    position: relative;
-    /* height: 2em; */
-    .busquedaHome {
-      border: 2px solid #6765e0;
-      border-radius: 15px;
-      height: 1.5rem;
-      width: 100%;
+  flex-direction: row;
+  /* height: calc(100vh - 100px); */
+  overflow: hidden;
+  /* overflow-y: auto; */
+  /* padding-top: 60px; */
+  padding-bottom: 40px;
+  width: 1200px;
+  /* height: 100%; */
+  /* position: relative; */
+  height: 85vh;
+  #sidebar {
+    /* position: absolute; */
+    /* top: 0px; */
+    .boxbusquedaHome {
+      display: flex;
+      position: relative;
+      /* height: 2em; */
+      margin-top: 10px;
+      /* margin-left: 10px; */
+      .busquedaHome {
+        border: 2px solid #6765e0;
+        border-radius: 15px;
+        height: 2.2rem;
+        width: 100%;
+        font-size: calc(2.6rem - 1vh);
+        padding-left: 10 px;
+      }
+      .buttonSearch {
+        position: absolute;
+        right: 4px;
+        top: 6.5px;
+        height: 30px;
+        width: 30px;
+      }
+      .deleteSearch {
+        border-radius: 15px;
+        background-color: #535bf2;
+        color: #fff;
+      }
     }
-    .buttonSearch {
-      position: absolute;
-      right: 4px;
-      top: 6.5px;
-      height: 15px;
-      width: 15px;
-    }
-    .deleteSearch {
-      border-radius: 15px;
-      background-color: #535bf2;
-      color: #fff;
+    nav {
+      overflow-y: auto;
+      margin-left: 10px;
+      /* position: absolute; */
+      /* top: 0px; */
+      ul li {
+        font-size: calc(2.5rem - 0.5vh);
+      }
     }
   }
   .chatHome {
     height: 100%;
-    width: 100%;
+    margin-left: 20px;
+    width: 1200px;
+    border-right: 1px solid #535bf2;
+    overflow-y: auto;
+    .messageBoxRoom {
+      scrollbar-gutter: stable both-edges;
+      font-size: 25px;
+      overflow-y: auto;
+      overflow: hidden;
+      /* height: calc(100vh - 30px); */
+    }
     .boxInputRoom {
+      /* overflow-x: hidden; */
       display: flex;
       position: absolute;
+      width: 880px;
       bottom: 0px;
-      /* left: auto; */
-      width: 100%;
+      padding-top: 5px; /* left: auto; */
+      padding-bottom: 5px;
+      /* width: 70%; */
       height: 40px;
-
+      /* justify-items; */
       border-top: 1px solid black;
-      .textInputRoom {
-        width: 100vw;
-        height: 30px;
-        border: 1px solid transparent;
+      justify-content: space-between;
+      .boxUsernameRoom {
+        display: flex;
+        .userInputRoom {
+          margin: auto;
+          font-weight: 600;
+          width: 50px;
+          margin-left: 0;
+          padding: 5px 5px;
+        }
+        .textInputRoom {
+          width: 33vw;
+          height: 30px;
+          margin-left: auto;
+          border: 1px solid transparent;
+          /* background-color: #eeb004; */
+        }
       }
       .buttonInputRoom {
-        margin: 0px;
-        padding: 0px;
+        margin-right: 0px;
+        padding: 5px;
+        background-color: #535bf2;
+        color: light-dark(white, black);
+        border-radius: 10px;
+        position: absolute;
+        right: 0px;
+        &:hover {
+          background-color: #8073fa;
+        }
       }
     }
   }

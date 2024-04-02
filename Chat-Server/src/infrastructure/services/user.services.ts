@@ -1,3 +1,4 @@
+import "dotenv/config"
 import {
   IdataLogin,
   IdataRegister,
@@ -8,8 +9,7 @@ import { Document, Model } from "mongoose"
 import { ChatModel, UserModel } from "../database/mongoose"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import fs, { writeFile } from "fs"
-import conf from "../../config/default"
+import fs from "fs"
 import qs from "qs"
 import config from "config"
 export const register = async (
@@ -207,16 +207,31 @@ export const addRoom = async (room: string) => {
   }
 }
 
-export async function getGoogleOauthTokens({ code }: { code: string }) {
-  const url = `http://oauth2.googleapis.com/token`
+interface IGoogleTokenResult {
+  access_token: string
+  expires_in: number
+  refresh_token: string
+  scope: string
+  token_type: string
+  // id_token: string
+}
+
+export async function getGoogleOauthTokens({
+  code,
+}: {
+  code: string
+}): Promise<IGoogleTokenResult> {
+  const url = "https://oauth2.googleapis.com/token"
 
   const values = {
-    code,
-    client_id: config.get("googleClientId"), //FIXME WHAT does config dependency, search every var in whole project?
-    client_secret: config.get("googleClientSecret"),
-    redirect_type: config.get("googleOauthRedirectUrl"),
     grant_type: "authorization_code",
+    code,
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+    redirect_uri: config.get("googleOauthRedirectUrl"), //FIXME WHAT does config dependency, search every var in whole project?
   }
+  console.log("val", values)
+
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -224,10 +239,44 @@ export async function getGoogleOauthTokens({ code }: { code: string }) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: qs.stringify(values),
+      // body: new URLSearchParams(values).toString(),
     })
-
-    return res.body
+    const jsonResponse: IGoogleTokenResult = await res.json()
+    return jsonResponse
   } catch (err: any) {
     console.error(err, "Failed to fetch google Oauth Tokens")
+    throw new Error(err.message)
+  }
+}
+export interface IGoogleResult {
+  id: string
+  email: string
+  verified_email: string
+  name: string
+  given_name: string
+  family_name: string
+  picture: string
+  locale: string
+}
+
+export const getGoogleUser = async ({
+  token_type,
+  access_token,
+}: {
+  token_type: string
+  access_token: string
+}) => {
+  try {
+    const response = await fetch(
+      `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
+      {
+        headers: { Authorization: `Bearer ${token_type}` },
+      }
+    )
+    const resJson = await response.json()
+    return resJson
+  } catch (err) {
+    console.log(err, "Failed to fetch google user")
+    // throw new Error(err.message)
   }
 }
