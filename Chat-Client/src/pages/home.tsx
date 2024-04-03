@@ -1,17 +1,15 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   useLoaderData,
   // useSubmit,
   Form,
   Outlet,
   NavLink,
-  useParams,
-  Navigate,
   useNavigate,
   // useSearchParams,
 } from "react-router-dom"
 
-import { UserContext } from "./layouts/UserContext"
+// import { UserContext } from "./layouts/UserContext"
 import { getChatsWith, getSearch } from "../hooks/controllers"
 import { useSearchQuery } from "../hooks/useSearchQuery"
 import { useDebounce } from "../hooks/useDebounce"
@@ -52,7 +50,7 @@ export const Home = () => {
   // console.log("fromLoader", typeof openChats, openChats)
   // const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const searchParams = useSearchQuery()
+  // const searchParams = useSearchQuery()
   // const [search] = searchParams
 
   useEffect(() => {

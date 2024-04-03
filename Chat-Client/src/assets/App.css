@@ -83,17 +83,20 @@ input {
       font-size: calc(0.5rem + 0.6vw);
       width: 200px;
     }
-    .butNav {
-      width: 80px;
-      font-size: small;
-      padding: 5px 0px;
-      padding-right: 0px;
-      margin: 1px;
-      color: black;
-      font-size: calc(0.4rem + 0.6vw);
-      &:hover {
-        background-color: #535bf2;
-        color: #fff;
+    .boxButtonNav {
+      display: flex;
+      .butNav {
+        width: 80px;
+        font-size: small;
+        padding: 5px 0px;
+        padding-right: 0px;
+        margin: 1px;
+        color: black;
+        font-size: calc(0.4rem + 0.6vw);
+        &:hover {
+          background-color: #535bf2;
+          color: #fff;
+        }
       }
     }
   }

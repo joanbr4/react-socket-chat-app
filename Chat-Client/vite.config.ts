@@ -14,6 +14,7 @@ export default defineConfig({
       "/search/": "http://localhost:4000/api",
       "/rooms/": "http://localhost:4000/api",
       "/sessions/": "http://localhost:4000/api",
+      "/auth/": "http://localhost:4000/api",
 
       // "/chat/:owner/:with": "http://localhost:4000/api",
       // Proxying websockets or socket.io: ws://localhost:5173/socket.io -> ws://localhost:5174/socket.io

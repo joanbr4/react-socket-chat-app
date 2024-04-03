@@ -9,6 +9,7 @@ import { ReactNode, StrictMode } from "react"
 import { HomeLayout } from "./pages/layouts/HomeLayout.tsx"
 import { Landing, action as landingAction } from "./pages/landing.tsx"
 import { PublicRoute } from "./setup/FilteredRoutes.tsx"
+import { GoogleOAuthProvider } from "@react-oauth/google"
 // import App from "./setup/App.tsx"
 
 // function ErrorScreen() {}
@@ -39,12 +40,16 @@ const root = ReactDOM.createRoot(document.getElementById("root")!)
 root.render(
   <StrictMode>
     <UserProvider>
-      {/* <RouterProvider> */}
-      {/* <TheRouter> */}
-      {/* <Api /> */}
-      <RouterProvider router={router} />
-      {/* </TheRouter> */}
-      {/* </RouterProvider> */}
+      <GoogleOAuthProvider
+        clientId={import.meta.env.VITE_NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+      >
+        {/* <RouterProvider> */}
+        {/* <TheRouter> */}
+        {/* <Api /> */}
+        <RouterProvider router={router} />
+        {/* </TheRouter> */}
+        {/* </RouterProvider> */}
+      </GoogleOAuthProvider>
     </UserProvider>
   </StrictMode>
 )

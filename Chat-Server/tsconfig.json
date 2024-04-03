@@ -16,5 +16,5 @@
     "noImplicitAny": true,
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*", "./tests/**/*"]
+  "include": ["./src/**/*", "./tests/**/*", "config"]
 }

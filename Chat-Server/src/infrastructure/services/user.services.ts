@@ -12,6 +12,8 @@ import jwt from "jsonwebtoken"
 import fs from "fs"
 import qs from "qs"
 import config from "config"
+import { RoomType, rooms, usersXroom } from "../database/room"
+
 export const register = async (
   data: IdataRegister
   // data: Document<IdataRegister>
@@ -148,63 +150,9 @@ export const createChat = async (room: string) => {
 }
 export const addRoom = async (room: string) => {
   console.log("roomy:", room)
-  try {
-    const resp = await fs.promises.readFile(
-      "./src/infrastructure/database/room.ts",
-      "utf8"
-      // {
-      //   content-type: "application/json"
-      // }
-    )
-    // const jsonResponse =  await resp.json()
-    console.log("rooms:", resp)
-    const [na, roomString, userxroomString] = resp.split("export")
-    console.log("array:", roomString, "object:", userxroomString)
-    const roomArrray = roomString
-      .split("=")[1]
-      .replace("[", "")
-      .replace("]", "")
-      .replace(/\"/g, "")
-      .split(",")
-      .map((room) => room.trim())
-    if (roomArrray.includes(room)) {
-      return
-    }
-    roomArrray.push(room)
-
-    const userXobjectValues = userxroomString.split("=")[1].split(",")
-    const indexAdd = userXobjectValues.length - 1
-    const newValue = `\r\n  ${room}: new Set()`
-    userXobjectValues.splice(indexAdd, 0, newValue)
-    const stringObject = userXobjectValues.join(",")
-    console.log("2", stringObject)
-    // const userXobject2 = eval("(" + userXobjectValues + ")")
-    // console.log("fumada2", userXobject2)
-
-    // userXobject2[room] = new Set()
-    // console.log(
-    //   "array:",
-    //   roomArrray,
-    //   "object",
-    //   userXobject2,
-    //   "inter",
-    //   userXobject4
-    // )
-    // Execute the code string to obtain the dynamic JavaScript object
-    // const dynamicObject = executeCode()
-    const updateArray = `export const rooms = [${roomArrray
-      .map((room) => `'${room}'`)
-      .join(", ")}]`
-    const updateObject = "export let usersXroom = " + stringObject
-    // "export let userxroom = " + JSON.stringify(userXobject2, null, 2)
-    await fs.promises.writeFile(
-      "./src/infrastructure/database/room.ts",
-      updateArray + "\n\n" + updateObject
-    )
-  } catch (err) {
-    console.log("error:", err)
-    throw new Error("algo uah petado")
-  }
+  rooms.push(room)
+  usersXroom[room] = new Set()
+  console.log("Room añadida:", rooms)
 }
 
 interface IGoogleTokenResult {

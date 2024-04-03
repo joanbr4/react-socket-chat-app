@@ -35,27 +35,14 @@ let userChatting = 0
 let chat: IdbMessage[] = []
 app.use("/api", router)
 
-// const rooms = ["tecnologia", "cultura", "deportes", "hot"]
-// let usersXroom: {
-//   tecnologia: Set<string>
-//   cultura: Set<string>
-//   deportes: Set<string>
-//   hot: Set<string>
-// } = {
-//   tecnologia: new Set(),
-//   cultura: new Set(),
-//   deportes: new Set(),
-//   hot: new Set(),
-// }
 io.on("connection", (socket) => {
-  // console.log("Client connected:", socket.id)
-
   //Socket to count live users
   socket.on("count Users", async (data) => {
     console.log("fromClient", data)
     const { room, finalnickname, status } = data
     if (!rooms.includes(room)) {
       await addRoom(room)
+      console.log(rooms)
     }
     const roomKey = room as keyof typeof usersXroom //assert room is a key of object
     const usersData = Array.from(usersXroom[roomKey])
@@ -66,7 +53,7 @@ io.on("connection", (socket) => {
       usersXroom[roomKey].add(finalnickname)
       const usersData = Array.from(usersXroom[roomKey])
       const num = usersData.length
-      // console.log("post", usersData, "total:", num)
+      console.log("post", usersData, "total:", num)
       io.emit("count Users", num)
     } else {
       usersXroom[roomKey].delete(finalnickname)
@@ -78,28 +65,23 @@ io.on("connection", (socket) => {
 
   //reflecting from public socket to public socket
   socket.on("public-chat", (msg: IDTOsocket) => {
+    console.log(msg)
     const { message, room, apodo } = msg
     io.emit(`public-${room}`, { message, apodo }) //io. let send to ourselve and everyone
   })
 
+  //Al socket del cliente lo vincualamos a una room que viene desde el cliente
   socket.on("private-chat", (nameRoom) => {
     // console.log("private", nameRoom)
     socket.join(nameRoom)
   })
 
-  //Al socket del cliente lo vincualamos a una room que viene desde el cliente
-  socket.on("room", (room) => {
-    socket.join(room)
-    console.log(`user": ${socket.id} has joinned to ${room} room`)
-  })
-
   //Private socket of clients
   socket.on("chatting", async (data) => {
     const { message, room, writer } = data
-    // console.log(`msg: ${message}, room: ${room}, user: ${writer}`)
+
     const dataToInsert = { writer: writer, message: message }
     const checkChat = await findchat(room)
-    console.log("qwe", checkChat)
 
     if (!checkChat) {
       console.log("chat created!")
@@ -115,7 +97,6 @@ io.on("connection", (socket) => {
       message: message,
       writer: writer,
     }) //send noti to ourselves with io.in()
-    // socket.to(room).emit("chat", listMessage);// not send noti to ourselves with socket.in()
   })
 
   socket.on("disconnect", (name_room) => {

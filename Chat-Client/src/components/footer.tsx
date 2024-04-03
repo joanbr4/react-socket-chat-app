@@ -4,7 +4,7 @@ export const Footer = () => {
       <div className="bottomFooter">
         <div className="urlFooter">
           <img src="" />
-          <h3>©2024 ChatEnVivo.dev</h3>
+          <h3>©2024 justchattin.dev</h3>
         </div>
         <ul className="logoFooter">
           <li className="itemLogoFooter">

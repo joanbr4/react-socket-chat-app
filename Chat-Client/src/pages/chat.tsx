@@ -49,7 +49,8 @@ const Chat = () => {
   const writer = userRef.current.nickname
   const sortedRoom = [writer, user].sort()
   const nameRoom = `${sortedRoom[0]} ${sortedRoom[1]}`
-  console.log(nameRoom)
+  // console.log(nameRoom)
+
   useEffect(() => {
     // if (dataLoader == Idb) {
     if (dataLoader?.pair_writers != undefined) {

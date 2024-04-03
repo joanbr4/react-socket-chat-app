@@ -43,6 +43,7 @@ export function Sala() {
   const inputRef = useRef<HTMLInputElement | null>(null)
   // const socket = useRef(null)
   // const roomRef = useRef(null)
+  const [nameRoom, setNameRoom] = useState<string>("")
   const [count, setCount] = useState<number>(0)
   const [message, setMessage] = useState<string>("")
   const [messages, setMessages] = useState<IsocketReceved[]>([])
@@ -54,24 +55,32 @@ export function Sala() {
   console.log("F", finalnickname)
   //Count user even no sending any mssg
 
+  // socket.emit("count Users", { room, finalnickname, status: true })
+
   socket.on("count Users", (totalUsers) => {
     console.log("totalUsers", totalUsers)
     setCount(totalUsers)
   })
 
   useEffect(() => {
-    if (finalnickname != "") {
+    const setupSocket = async () => {
+      socket.connect()
       socket.emit("count Users", { room, finalnickname, status: true })
     }
+    setupSocket()
+
+    // socket.close()
+  }, [])
+
+  useEffect(() => {
+    socket.emit("count Users", { room, finalnickname, status: true })
     socket.on(`public-${room}`, (msg: IsocketReceved) => {
-      // socket.on(`room-${room}`, (msg: IsocketReceved) => {
       const updateMessages = [...messages]
       updateMessages.push(msg)
       console.log("state", updateMessages)
       setMessages(updateMessages)
     })
 
-    // }
     // }, [])
   }, [socket, messages, room, finalnickname])
   // }, [socket])
@@ -79,6 +88,7 @@ export function Sala() {
   const createNickname = () => {
     socket.emit("count Users", { room, finalnickname, status: true })
     setFinalNickname(nickname)
+    // setNameRoom(room)
   }
 
   const closeRoom = (room: string) => {

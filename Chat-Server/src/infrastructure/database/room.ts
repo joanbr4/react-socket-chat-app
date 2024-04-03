@@ -1,9 +1,10 @@
-export const rooms = ["tecnologia", "cultural", "deportes", "hot", "cine"]
+export const rooms = ["tecnologia", "cultural", "deportes", "adultos"]
 
-export let usersXroom = {
+export type RoomType = "tecnologia" | "cultural" | "deportes" | "adultos"
+
+export let usersXroom: Record<string, Set<string>> = {
   tecnologia: new Set(),
   cultural: new Set(),
   deportes: new Set(),
-  hot: new Set(),
-  cine: new Set(),
+  adultos: new Set(),
 }
