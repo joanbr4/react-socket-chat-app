@@ -5,11 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
-    "start:frontend": "cd Chat-Client && npm run dev",
-    "start:backend": "cd Chat-Server && npm run dev"
-  },
-  "dependencies": {
-    "socket.io": "^4.7.4"
+    "start:frontend": "cd Client && npm run dev",
+    "start:backend": "cd Server && npm run dev"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
