@@ -33,8 +33,8 @@ And runing the project
 npm run start
 ```
 
-![RegisterPage]('./public/registerPage.jpg')
+![RegisterPage]('./assets/registerPage.jpg')
 
-![PublucRoom]('./public/publicRoom.png')
+![PublucRoom]('./assets/publicRoom.png')
 
 [Docker]: https://www.docker.com/products/docker-desktop/
