@@ -17,7 +17,9 @@ export function ErrorBoundary() {
       <p>
         <i>{error.statusText || error.message || "Unkown error"}</i>
       </p>
-      <button onClick={() => navigate(-1)}>Volver</button>
+      <button className="buttonError" onClick={() => navigate(-1)}>
+        Volver
+      </button>
     </div>
   )
 }

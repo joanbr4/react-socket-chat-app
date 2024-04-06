@@ -50,10 +50,19 @@ const router = createBrowserRouter(
           />
         </Route>
       </Route>
-      <Route path="/signIn" element={<Register />} action={registerAction} />
+      <Route
+        path="/signIn"
+        element={<Register />}
+        action={registerAction}
+        errorElement={<ErrorBoundary />}
+      />
 
       {/* other */}
-      <Route path="*" element={<NotFoundPage />} />
+      <Route
+        path="*"
+        element={<NotFoundPage />}
+        errorElement={<ErrorBoundary />}
+      />
     </>
   )
 )

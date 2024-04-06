@@ -1,11 +1,11 @@
 import ReactDOM from "react-dom/client"
-import { BrowserRouter, Route, RouterProvider, Routes } from "react-router-dom"
+import { Route, RouterProvider, Routes } from "react-router-dom"
 import router from "./setup/App.tsx"
 
 import "./assets/index.css"
 import { UserProvider } from "./pages/layouts/UserContext.tsx"
 // import { ErrorBoundary } from "./pages/errors/ErrorBoundary.tsx"
-import { ReactNode, StrictMode } from "react"
+import { StrictMode } from "react"
 import { HomeLayout } from "./pages/layouts/HomeLayout.tsx"
 import { Landing, action as landingAction } from "./pages/landing.tsx"
 import { PublicRoute } from "./setup/FilteredRoutes.tsx"
@@ -14,9 +14,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google"
 
 // function ErrorScreen() {}
 
-function TheRouter(props: { children: ReactNode }) {
-  return <BrowserRouter>{props.children}</BrowserRouter> //Not possible a createBrowserRouter withing BrowserRouter
-}
+// function TheRouter(props: { children: ReactNode }) {
+//   return <BrowserRouter>{props.children}</BrowserRouter> //Not possible a createBrowserRouter withing BrowserRouter
+// }
 
 export function Api() {
   return (

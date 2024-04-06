@@ -1,0 +1,5 @@
+{
+  "port": 4000,
+  "originWeb": "http://localhost/5173",
+  "googleOauthRedirectUrl": "http://localhost:4000/api/sessions/oauth/google"
+}

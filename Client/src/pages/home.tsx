@@ -64,7 +64,6 @@ export const Home = () => {
     const response = await getSearch(data)
     setSearch(response)
     navigate("/home/browse")
-    // navigate("/browse/?q=" + data)
   }
 
   const clearInput = () => {

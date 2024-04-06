@@ -18,7 +18,6 @@ input {
     outline: none;
   }
 }
-
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -482,22 +481,94 @@ i {
         align-items: end;
       }
     }
-    /* } */
+  }
+}
+.registerBody {
+  margin: auto;
+  /* display: flex; */
+  /* flex-direction: column; */
+  width: 100vw;
+  height: 100vh;
+  background-image: url("public/3612880.jpg");
+  /* background-repeat: repeat-y; */
+  h1 {
+    width: 800px;
+    color: #535bf2;
+    /* margin: auto; */
+    margin: 100px auto 100px auto;
+  }
+  .boxForm {
+    margin: 20px auto 250px auto;
+    display: flex;
+    border: 1px solid rgb(173, 172, 172);
+    border-radius: 20px;
+    width: 520px;
+    background-color: #e5e5e5cc;
+    /* background-color: rgba(101, 88, 214, 0.74); */
+    .dataForm {
+      margin: auto;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      align-items: center;
+      label {
+        color: black;
+        margin-top: 10px;
+        /* font-weight: 200; */
+        font-weight: 600;
+      }
+      .inputRegister {
+        border: 1px solid rgb(134, 95, 224);
+        width: 250px;
+        height: calc(3rem - 0.5vh);
+        border-radius: 5px;
+        font-size: calc(1.6rem - 0.5vh);
+      }
+      .buttonForm {
+        margin-top: 40px;
+        /* margin-left: 50px; */
+        background-color: #535bf2;
+        color: #fff;
+        &:hover {
+          background-color: #b6aeff;
+        }
+      }
+    }
+  }
+  .buttonBack {
+    margin-left: 100px;
+    background-color: #535bf2;
+    /* color: #fff; */
+    &:hover {
+      background-color: #b6aeff;
+    }
   }
 }
 
-.dataForm {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  align-items: center;
-}
-
-.boxErrorLayout {
+#error-page {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  .buttonError {
+    background-color: #535bf2;
+    color: #fff;
+    &:hover {
+      background-color: #b6aeff;
+    }
+  }
+}
+.boxButtonsNFP {
+  display: flex;
+  /* flex-direction: column; */
+  .buttonNFP {
+    margin-right: 5px;
+  }
+}
+.textoError {
+  color: red;
+  margin: 0px;
 }
