@@ -468,8 +468,10 @@ i {
     justify-items: space-between;
     max-width: 1088px;
     margin: auto;
+    /* height: 300px; */
     .urlFooter {
       margin-right: 70px;
+      font-size: 1.2rem;
     }
     .logoFooter {
       display: flex;
@@ -479,6 +481,11 @@ i {
         display: flex;
         margin: 10px;
         align-items: end;
+        /* height: 60px; */
+        a svg {
+          width: 2rem;
+          height: 2rem;
+        }
       }
     }
   }
