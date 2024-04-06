@@ -33,8 +33,16 @@ And runing the project
 npm run start
 ```
 
-![RegisterPage](./assets/registerPage.jpg)
+<br/>
 
-![PublucRoom](./assets/publicRoom.png)
+<p align="center" >  
+<img src="./assets/registerPage.jpg" title="Title" width="900" >
+</p>
+
+<br/>
+
+<p align="center">  
+<img src="./assets/publicRoom.png" title="Title" width="900" style="box-shadow: 3px 3px 3px gray;">
+</p>
 
 [Docker]: https://www.docker.com/products/docker-desktop/
