@@ -1,7 +1,6 @@
 import Select from "react-select"
 import { Form, Link, redirect, useActionData } from "react-router-dom"
-import { SigInSchema } from "../zod/sginUp"
-import { FormData } from "../zod/sginUp"
+import { SigInSchema, FormData } from "../zod/signInUp"
 
 export const action = async ({ request }: { request: Request }) => {
   const dataForm = await request.formData()
@@ -24,7 +23,6 @@ export const action = async ({ request }: { request: Request }) => {
       },
       {}
     )
-    console.log(formattedErrors)
     return formattedErrors
   } else {
     const payload = { data: dataObject }
@@ -36,7 +34,6 @@ export const action = async ({ request }: { request: Request }) => {
       // body: { datos: payload },
       body: JSON.stringify(payload),
     })
-    console.log(response.status)
     if (response.status === 200) return redirect("/")
     return "ERror!!general"
   }

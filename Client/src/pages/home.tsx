@@ -61,7 +61,9 @@ export const Home = () => {
   const startDebunce = async (data: string) => {
     // setSearch(debounce)
 
+    // console.log(textSearch)
     const response = await getSearch(data)
+    console.log("etarget", response)
     setSearch(response)
     navigate("/home/browse")
   }
@@ -146,7 +148,7 @@ export const Home = () => {
         <div className="titleRoom">
           <h4>Live Chat</h4>
         </div>
-        <div className="bodyRoom"></div>
+        {/* <div className="bodyRoom"></div> */}
         <Outlet context={{ search, list, setList }} />
         <br />
       </div>

@@ -10,21 +10,20 @@ interface IOutletContextType {
 }
 interface IdataObject {
   name: string
+  surname: string
   nickname: string
   genere: string
 }
 export function ListUsers() {
   const { userRef } = useContext(UserContext) || {}
   const { search, list, setList } = useOutletContext() as IOutletContextType
-
+  // console.log(search)
   const filterSearch = search.filter(
     (item: IdataObject) =>
       item.nickname !== userRef?.current?.nickname &&
       !list.includes(item.nickname)
   )
-
   const addUser = async (name: string) => {
-    console.log("addUser", name)
     const copyList = [...list]
     copyList.push(name)
     userRef?.current?.nickname && createChat(userRef.current.nickname, name) //confirm exist nickname Value instead if condition
@@ -33,15 +32,17 @@ export function ListUsers() {
   }
 
   return (
-    <>
+    <div className="listChatUsers">
       <h1>ListUsers</h1>
       {search.length > 0 ? (
         <ul>
           {filterSearch.map((item: IdataObject, index: number) => (
             <li key={index}>
               <div className="boxUser">
-                <img alt="img"></img>
-                <p>{item.name}</p>
+                <div className="photoUser">
+                  {/* <img alt="img"></img> */}
+                  <span>{item.name}</span>
+                </div>
                 <button>
                   <NavLink to={"/home/chat/" + item.nickname}>Chat</NavLink>
                 </button>
@@ -56,6 +57,6 @@ export function ListUsers() {
           ))}
         </ul>
       ) : null}
-    </>
+    </div>
   )
 }

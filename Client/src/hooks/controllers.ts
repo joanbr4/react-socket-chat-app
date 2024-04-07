@@ -22,8 +22,6 @@ export const getChat = async (
   })
 }
 
-export const getMessages = () => {}
-
 export const getSearch = async (data: string) => {
   const response = await fetch(`/search/${data}`)
   return response.json()

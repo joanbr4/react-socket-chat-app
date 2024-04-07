@@ -4,7 +4,7 @@ import router from "./infrastructure/routes/express-router"
 import { createServer } from "http"
 import { Server } from "socket.io"
 import cors from "cors"
-import { IDTOsocket, IdbMessage, IusersXroom } from "./domain/model"
+import { IDTOsocket } from "./domain/model"
 import {
   addRoom,
   createFirstMessage,
@@ -30,9 +30,7 @@ const io = new Server(server, {
   },
   transports: ["websocket"],
 })
-let userChatting = 0
 
-let chat: IdbMessage[] = []
 app.use("/api", router)
 
 io.on("connection", (socket) => {
@@ -100,10 +98,8 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", (name_room) => {
-    // userChatting--;
     if (!rooms.includes(name_room)) {
       socket.leave(name_room)
-      // {io.emit("list chatters", userChatting);
       console.log("room closed")
     }
   })

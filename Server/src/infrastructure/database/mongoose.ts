@@ -2,20 +2,21 @@ import "dotenv/config"
 import mongoose, { Schema, model } from "mongoose"
 import { IdataRegister, IdbMessage } from "../../domain/model"
 import bcrypt from "bcrypt"
+import { checkMockUsers } from "./mockUsers"
 
-let uri = `mongodb://root:example@localhost:27017` //El puerto viene predefinido en la imagen, de manera interna, si cambio da error!!
-// let uri = process.env.MONGO_URI as string //El puerto viene predefinido en la imagen, de manera interna, si cambio da error!!
+const uri = `mongodb://root:example@localhost:27017` //El puerto viene predefinido en la imagen, de manera interna, si cambio da error!!
 // let uri = "mongodb://localhost:27017"; //Funciona!!
-console.log("uri", uri)
+
 mongoose
   .connect(uri)
   .then(async () => {
-    const allUser = await UserModel.find()
     console.log("Connected to MongoDB!")
-    console.log("AllUSers:", allUser)
-    // console.log("lastUser:", allUser.at(-1))
-    console.log("count:", allUser.length)
+    await checkMockUsers()
     // await ChatModel.deleteMany({}) // To delete all mock chats
+    // await UserModel.deleteMany({}) // To delete all mock user
+    const allUser = await UserModel.find()
+    console.log("lastUser:", allUser.at(-1))
+    console.log("count:", allUser.length)
   })
   .catch((err) => {
     console.log("error!!")

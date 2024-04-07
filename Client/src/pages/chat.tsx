@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { Form, Params, useLoaderData, useParams } from "react-router-dom"
 import { UserContext } from "./layouts/UserContext"
 import { socket } from "../backend/socket"
-import { Message } from "../components/message"
+import { MessagePrivate, MessagePublic } from "../components/message"
 import { getChat } from "../hooks/controllers"
 
 export const loader = async ({ params }: { params: Params }) => {
@@ -76,22 +76,24 @@ const Chat = () => {
   }
 
   return (
-    <div className="chatRoom">
-      <div className="messageBoxRoom">
-        {messages.length > 0 ? (
-          messages.map((msg: Imessages, index) => (
-            <Message
-              key={index}
-              message={msg.message}
-              apodo={msg.writer}
-              index={index}
-            />
-          ))
-        ) : (
-          <p>Ya puede empezar la conversacion</p>
-        )}
+    <>
+      <div className="BoxChatHome">
+        <div className="messageBoxRoom">
+          {messages.length > 0 ? (
+            messages.map((msg: Imessages, index) => (
+              <MessagePrivate
+                key={index}
+                message={msg.message}
+                apodo={msg.writer}
+                owner={userRef?.current?.nickname as string}
+                index={index}
+              />
+            ))
+          ) : (
+            <p>Ya puede empezar la conversacion</p>
+          )}
+        </div>
       </div>
-
       <Form>
         <div className="boxInputRoom">
           <div className="boxUsernameRoom">
@@ -118,7 +120,7 @@ const Chat = () => {
           {/* </div> */}
         </div>
       </Form>
-    </div>
+    </>
   )
 }
 

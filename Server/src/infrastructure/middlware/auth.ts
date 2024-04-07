@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import jwt, { JwtPayload, Secret } from "jsonwebtoken"
+import jwt, { JwtPayload } from "jsonwebtoken"
 
 export interface IcustomRequest extends Request {
   token: string | JwtPayload
@@ -13,7 +13,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const decoded = jwt.verify(token, "secretKey" || "")
-    console.log("decoded", decoded)
+    // console.log("decoded", decoded)
     if (!decoded) {
       throw new Error("Invalid token")
     }

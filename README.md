@@ -5,9 +5,10 @@
 This repository has implemented many things, such as:
 
 - Room, namespaces
-- Login with validations JWT
-- Socket for chatting
-- Component architecture in Frontend & Hexagonal from Backend as well
+- Validations JWT
+- Sockets
+- Component Architecture in Frontend & Hexagonal from Backend as well
+- Routing
 
 ## Requisited needed
 
@@ -35,14 +36,24 @@ npm run start
 
 <br/>
 
+When you are logged, we added a mock users, you only need to find them with a keyword search "all"
+
+Hope you enjoy this project, and make your own test and improvements!
+
 <p align="center" >  
-<img src="./assets/registerPage.jpg" title="Title" width="900" >
+<img src="./assets/registerPage.jpg" title="SigInPage" width="900" >
 </p>
 
 <br/>
 
 <p align="center">  
-<img src="./assets/publicRoom.png" title="Title" width="900" style="box-shadow: 3px 3px 3px gray;">
+<img src="./assets/publicRoom.png" title="PublicRoom" width="900" >
+</p>
+
+<br/>
+
+<p align="center">  
+<img src="./assets/chatPrivate.jpg" title="PrivatePage" width="900" >
 </p>
 
 [Docker]: https://www.docker.com/products/docker-desktop/

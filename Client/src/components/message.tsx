@@ -1,4 +1,4 @@
-export const Message = ({
+export const MessagePublic = ({
   message,
   apodo,
   index,
@@ -21,6 +21,31 @@ export const Message = ({
           {apodo}:
         </span>
         <span className="msgMessage"> {message}</span>
+      </li>
+    </>
+  )
+}
+export const MessagePrivate = ({
+  message,
+  apodo,
+  owner,
+  index,
+}: {
+  message: string
+  apodo: string
+  index: number
+  owner: string
+}) => {
+  return (
+    <>
+      <li key={index} className="lineRoom">
+        <span
+          className={
+            owner == apodo ? "msgMessage owner" : "msgMessage nonOwner"
+          }
+        >
+          {message}
+        </span>
       </li>
     </>
   )
