@@ -22,13 +22,15 @@ We need first of all run our dataBase Image from Docker, its already configured:
 docker compose up -d
 ```
 
-Then run the project with 2 commands, one for install all dependencies in Client and Server side:
+Befre runing whole project, we need to install our primary depedencies, so write in terminal `npm install`
+
+Now we can run both side of project with only 2 commands, one for install all dependencies in Client and Server side:
 
 ```sh
 npm run build
 ```
 
-And runing the project
+And other to run both ones:
 
 ```sh
 npm run start
