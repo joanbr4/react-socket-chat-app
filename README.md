@@ -1,6 +1,6 @@
 # Just Chattin'
 
-## What can I watch and expected from this project?
+## What can I watch and expect from this project?
 
 This repository has implemented many things, such as:
 
@@ -10,27 +10,27 @@ This repository has implemented many things, such as:
 - Component Architecture in Frontend & Hexagonal from Backend as well
 - Routing
 
-## Requisited needed
+## Prerequisites Needed
 
-This project try to be use and handy and easy to connect and to be able make your own testing, improvement and so on, so for our queries to dataBase we made it using MongoDB with image [Docker] and must be installed first
+This project aims to be user-friendly, convenient, and easy to connect to for testing, improvement and more. To handle database queries, we've opted for MongoDB with a [Docker] image, which must be installed first.
 
-## Install
+## How to Install?
 
-We need first of all run our dataBase Image from Docker, its already configured:
+We need to first run our database image from Docker, as it's already configured.
 
 ```sh
 docker compose up -d
 ```
 
-Befre runing whole project, we need to install our primary depedencies, so write in terminal `npm install`
+Before running the entire project, we need to install our primary depedencies. To do so, enter `npm install` in terminal.
 
-Now we can run both side of project with only 2 commands, one for install all dependencies in Client and Server side:
+Now we can run both sides of the project with just two commands. One command install all dependencies for both the client and server sides:
 
 ```sh
 npm run build
 ```
 
-And other to run both ones:
+And the other command is used to run both:
 
 ```sh
 npm run start
@@ -38,9 +38,9 @@ npm run start
 
 <br/>
 
-When you are logged, we added a mock users, you only need to find them with a keyword search "all"
+When you are logged in, we've added mock users for you. To find them and start chatting, use the keyword search "all".
 
-Hope you enjoy this project, and make your own test and improvements!
+We hope you enjoy this project and feel free to conduct your own tests and make improvements!
 
 <p align="center" >  
 <img src="./assets/registerPage.jpg" title="SigInPage" width="900" >
