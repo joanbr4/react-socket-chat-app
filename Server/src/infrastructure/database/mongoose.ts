@@ -11,12 +11,7 @@ mongoose
   .connect(uri)
   .then(async () => {
     console.log("Connected to MongoDB!")
-    await checkMockUsers()
-    // await ChatModel.deleteMany({}) // To delete all mock chats
-    // await UserModel.deleteMany({}) // To delete all mock user
-    const allUser = await UserModel.find()
-    console.log("lastUser:", allUser.at(-1))
-    console.log("count:", allUser.length)
+    initializeDatabase()
   })
   .catch((err) => {
     console.log("error!!")
@@ -85,5 +80,15 @@ const ChatSchema: Schema = new Schema({
 
 const UserModel = model<IdataRegister>("User", UserSchema)
 const ChatModel = model<IdbMessage>("Chat", ChatSchema)
+
+//we make a post query to UserSchema created time
+async function initializeDatabase() {
+  await checkMockUsers()
+  // await ChatModel.deleteMany({}) // To delete all mock chats
+  // await UserModel.deleteMany({}) // To delete all mock user
+  const allUser = await UserModel.find()
+  console.log("lastUser:", allUser.at(-1))
+  console.log("count:", allUser.length)
+}
 
 export { UserModel, ChatModel }

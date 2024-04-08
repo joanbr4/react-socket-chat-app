@@ -1,16 +1,5 @@
 import { UserModel } from "./mongoose"
 
-// interface IdataRegister {
-//   name: string
-//   surname: string
-//   nickname: string
-//   genere: string
-//   email: string
-//   password: string
-//   date: Date
-// }
-console.log("papa")
-
 export const checkMockUsers = async () => {
   const mockUsers = await UserModel.find({
     email: [
