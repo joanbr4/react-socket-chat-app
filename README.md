@@ -1,38 +1,61 @@
 # Just Chattin'
 
-## What can I watch and expected from this project?
+## What can I watch and expect from this project?
 
 This repository has implemented many things, such as:
 
 - Room, namespaces
-- Login with validations JWT
-- Socket for chatting
-- Component architecture in Frontend & Hexagonal from Backend as well
+- Validations JWT
+- Sockets
+- Component Architecture in Frontend & Hexagonal from Backend as well
+- Routing
 
-## Requisited needed
+## Needed Requirements
 
-this project try to be use and handy and easy to connect and to be able make your own testing, improvement and so on, so for our queries to dataBase we made it using MongoDB with image [Docker] and must be installed first
+This project aims to be user-friendly, convenient, and easy to connect to for testing, improvement and more. To handle database queries, we've opted for MongoDB with a [Docker] image, which must be installed first.
 
-## Install
+## How to Install?
 
-We need first of all run our dataBase Image from Docker, its already configured:
+We need to first run our database image from Docker, as it's already configured.
 
 ```sh
 docker compose up -d
 ```
 
-Then run the project with 2 commands, one for install all dependencies in Client and Server side:
+Before running the entire project, we need to install our primary depedencies. To do so, enter `npm install` in terminal.
+
+Now we can run both sides of the project with just two commands. One command install all dependencies for both the client and server sides:
 
 ```sh
 npm run build
 ```
 
-And runing the project
+And the other command is used to run both:
 
 ```sh
 npm run start
 ```
 
-![RegisterPage]('public/registerPage.jpg')
+<br/>
+
+When you are logged in, we've added mock users for you. To find them and start chatting, use the keyword search "all".
+
+We hope you enjoy this project and feel free to conduct your own tests and make improvements!
+
+<p align="center" >  
+<img src="./assets/registerPage.jpg" title="SigInPage" width="900" >
+</p>
+
+<br/>
+
+<p align="center">  
+<img src="./assets/publicRoom.png" title="PublicRoom" width="900" >
+</p>
+
+<br/>
+
+<p align="center">  
+<img src="./assets/chatPrivate.jpg" title="PrivatePage" width="900" >
+</p>
 
 [Docker]: https://www.docker.com/products/docker-desktop/
