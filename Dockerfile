@@ -16,7 +16,7 @@ FROM node:20-alpine
 WORKDIR /app
 COPY --from=server-builder /Server/  .
 COPY --from=client-builder /Client/dist ./Client
-
+RUN npm install
 # Expose ports if necessary
 EXPOSE 4000
 EXPOSE 5173

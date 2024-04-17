@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { Form, Params, useLoaderData, useParams } from "react-router-dom"
 import { UserContext } from "./layouts/UserContext"
 import { socket } from "../backend/socket"
-import { MessagePrivate, MessagePublic } from "../components/message"
+import { MessagePrivate } from "../components/message"
 import { getChat } from "../hooks/controllers"
 
 export const loader = async ({ params }: { params: Params }) => {

@@ -10,7 +10,7 @@ This repository has implemented many things, such as:
 - Component Architecture in Frontend & Hexagonal from Backend as well
 - Routing
 
-## Prerequisites Needed
+## Needed Requirements
 
 This project aims to be user-friendly, convenient, and easy to connect to for testing, improvement and more. To handle database queries, we've opted for MongoDB with a [Docker] image, which must be installed first.
 
