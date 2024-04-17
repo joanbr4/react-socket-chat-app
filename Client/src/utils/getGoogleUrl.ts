@@ -1,5 +1,5 @@
 function getGoogleOauthURL() {
-  const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+  const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth"
 
   const options = {
     redirect_uri: import.meta.env
@@ -12,13 +12,13 @@ function getGoogleOauthURL() {
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email",
     ].join(" "),
-  };
-  console.log("options:", { options });
-  const qs = new URLSearchParams(options);
+  }
+  console.log("options:", { options })
+  const qs = new URLSearchParams(options)
 
-  console.log("Query Strings:", qs.toString());
+  console.log("Query Strings:", qs.toString())
 
-  return `${rootUrl}?${qs.toString()}`;
+  return `${rootUrl}?${qs.toString()}`
 }
 
-export default getGoogleOauthURL;
+export default getGoogleOauthURL

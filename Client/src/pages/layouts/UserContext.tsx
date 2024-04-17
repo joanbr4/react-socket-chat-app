@@ -17,7 +17,7 @@ const UserContext = createContext<IuserContextData | null>(null)
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const userRef = useRef<IuserStructure | null>(null) //for assert mutable values of useRef
-
+  console.log()
   const dataCookie = Cookies.get("dataUser")
   if (dataCookie) {
     const jsonCookie = JSON.parse(dataCookie)

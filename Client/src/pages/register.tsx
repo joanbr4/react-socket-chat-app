@@ -1,11 +1,11 @@
-import Select from "react-select"
-import { Form, Link, redirect, useActionData } from "react-router-dom"
-import { SigInSchema } from "../zod/sginUp"
-import { FormData } from "../zod/sginUp"
+import Select from "react-select";
+import { Form, Link, redirect, useActionData } from "react-router-dom";
+import { SigInSchema } from "../zod/signInUp";
+import { FormData } from "../zod/signInUp";
 
 export const action = async ({ request }: { request: Request }) => {
-  const dataForm = await request.formData()
-  const dataObject = Object.fromEntries(dataForm) as FormData
+  const dataForm = await request.formData();
+  const dataObject = Object.fromEntries(dataForm) as FormData;
   const validationResult = SigInSchema.safeParse({
     name: dataObject.name,
     surname: dataObject.surname,
@@ -13,21 +13,21 @@ export const action = async ({ request }: { request: Request }) => {
     nickname: dataObject.nickname,
     password: dataObject.password,
     email: dataObject.email,
-  })
-  console.log(validationResult)
+  });
+  console.log(validationResult);
   if (!validationResult.success) {
     // Convertir los errores de Zod en un formato más amigable para la UI
     const formattedErrors = validationResult.error.issues.reduce(
       (acc: { [key: string]: string }, current) => {
-        acc[current.path[0] as string] = current.message
-        return acc
+        acc[current.path[0] as string] = current.message;
+        return acc;
       },
       {}
-    )
-    console.log(formattedErrors)
-    return formattedErrors
+    );
+    console.log(formattedErrors);
+    return formattedErrors;
   } else {
-    const payload = { data: dataObject }
+    const payload = { data: dataObject };
     const response = await fetch("/register", {
       headers: {
         "Content-Type": "application/json",
@@ -35,20 +35,20 @@ export const action = async ({ request }: { request: Request }) => {
       method: "POST",
       // body: { datos: payload },
       body: JSON.stringify(payload),
-    })
-    console.log(response.status)
-    if (response.status === 200) return redirect("/")
-    return "ERror!!general"
+    });
+    console.log(response.status);
+    if (response.status === 200) return redirect("/");
+    return "ERror!!general";
   }
-}
+};
 
 export const Register = () => {
-  const errorLoader = useActionData() as FormData
+  const errorLoader = useActionData() as FormData;
   const options = [
     { value: "he/him", label: "He/him" },
     { value: "she/her", label: "She/Her" },
     { value: "other", label: "they/them" },
-  ]
+  ];
 
   return (
     <div className="registerBody">
@@ -125,7 +125,7 @@ export const Register = () => {
         </Link>
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

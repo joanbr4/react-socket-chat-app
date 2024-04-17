@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Form, useNavigate, useParams } from "react-router-dom"
 import { socket } from "../backend/socket"
-import { Message } from "../components/message"
+import { MessagePublic } from "../components/message"
 
 interface Ichat {
   data: FormDataEntryValue
@@ -122,7 +122,7 @@ export function Sala() {
             <div className="messageBoxRoom">
               {messages.length > 0 ? (
                 messages.map((msg: IsocketReceved, index) => (
-                  <Message
+                  <MessagePublic
                     key={index}
                     message={msg.message}
                     apodo={msg.apodo}
@@ -136,7 +136,6 @@ export function Sala() {
 
             <Form>
               <div className="boxInputRoom">
-                {messages.length != 0 ? <ul id="message"></ul> : null}
                 <div className="userInputRoom">{nickname}</div>
                 <input
                   placeholder="Enviar un mensaje..."

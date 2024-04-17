@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import { IdataLogin } from "../../domain/model"
 import * as userServices from "../services/user.services"
-import jwt from "jsonwebtoken"
 import config from "config"
 import { OAuth2Client } from "google-auth-library"
 
@@ -37,9 +36,8 @@ export const logoutOne = async (req: Request, res: Response) => {
 
 export const registerOne = async (req: Request, res: Response) => {
   try {
-    const { name, surname, nickname, genere, email, password } = req.body.data
-
-    await userServices.register(req.body.data)
+    const dataRegister = req.body.data
+    await userServices.register(dataRegister)
     res.status(200).send("Registered")
   } catch (err) {
     res.status(404).send("Not valid register")
@@ -80,6 +78,7 @@ export const createChatOne = async (
   const sorted = [owner, chatWith].sort()
   const nameRoom = `${sorted[0]} ${sorted[1]}`
   await userServices.createChat(nameRoom) //FIXME: WHAT If try to add someone already added?
+  res.status(200)
 }
 
 export const addRoomOne = async (req: Request, res: Response) => {

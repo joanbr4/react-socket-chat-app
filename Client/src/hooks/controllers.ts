@@ -5,8 +5,8 @@ export const getChatsWith = (user: string, token: string) => {
     },
     method: "GET",
     credentials: "include",
-  })
-}
+  });
+};
 
 export const getChat = async (
   user: string,
@@ -19,22 +19,20 @@ export const getChat = async (
     },
     method: "GET",
     credentials: "include",
-  })
-}
-
-export const getMessages = () => {}
+  });
+};
 
 export const getSearch = async (data: string) => {
-  const response = await fetch(`/search/${data}`)
-  return response.json()
-}
+  const response = await fetch(`/search/${data}`);
+  return response.json();
+};
 
 export const createChat = async (owner: string, name: string) => {
   await fetch(`/chat/${owner}/${name}`, {
     method: "POST",
-  })
-}
+  });
+};
 
 export const getToken = async (token: object) => {
-  console.log(token)
-}
+  console.log(token);
+};

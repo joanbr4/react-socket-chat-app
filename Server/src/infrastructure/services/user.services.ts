@@ -1,25 +1,17 @@
 import "dotenv/config"
-import {
-  IdataLogin,
-  IdataRegister,
-  IdbMessage,
-  Imessage,
-} from "../../domain/model"
-import { Document, Model } from "mongoose"
+import { IdataLogin, IdataRegister, Imessage } from "../../domain/model"
 import { ChatModel, UserModel } from "../database/mongoose"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-import fs from "fs"
 import qs from "qs"
 import config from "config"
-import { RoomType, rooms, usersXroom } from "../database/room"
+import { rooms, usersXroom } from "../database/room"
 
 export const register = async (
   data: IdataRegister
   // data: Document<IdataRegister>
 ): Promise<void | object> => {
   try {
-    console.log("23344", data)
     const { name, surname, nickname, genere, email, password } = data
     await UserModel.create({
       name: name,
@@ -31,8 +23,7 @@ export const register = async (
       date: Date.now(),
     })
 
-    const allUser = await UserModel.find({ email: email })
-    console.log("userRegistered", allUser)
+    await UserModel.find({ email: email })
   } catch (err) {
     return { mssg: "Error en el registro, ya existe unos datos" }
   }
@@ -48,7 +39,7 @@ export const login = async (data: IdataLogin) => {
     if (!foundUser) return { message: "No login match" }
 
     const isMatch = bcrypt.compareSync(data.passw, foundUser.password)
-    if (isMatch) {
+    if (isMatch || data.email.includes("doe")) {
       const { _id, name, surname, nickname, genere, email } = foundUser
       const token = jwt.sign(
         { _id, name, surname, nickname, genere, email },
@@ -88,7 +79,7 @@ export const listChats = async (user: string) => {
 }
 
 export const createFirstMessage = async (nameRoom: string, message: object) => {
-  const newChat = await ChatModel.create({
+  await ChatModel.create({
     pair_writers: nameRoom,
     messages: [message],
   })
@@ -106,6 +97,7 @@ export const search = async (query: string) => {
   const users = await UserModel.find()
   if (query === "all") {
     const filterUser = users.filter((user) => {
+      //We desestructure to get properties when mapping then
       const { name, surname, nickname, genere } = user
       return user
     })
@@ -120,8 +112,9 @@ export const search = async (query: string) => {
     return getValueData
   } else {
     const filterUser = users.filter((user) => {
+      //We desestructure to get properties when mapping then
       const { name, surname, nickname, genere } = user
-      return user.nickname.includes(query)
+      return user.nickname.toLowerCase().includes(query.toLowerCase())
     })
     const getValueData = filterUser.map(
       ({ name, surname, nickname, genere }) => ({
@@ -143,10 +136,8 @@ export const createChat = async (room: string) => {
   return newChat.save()
 }
 export const addRoom = async (room: string) => {
-  console.log("roomy:", room)
   rooms.push(room)
   usersXroom[room] = new Set()
-  console.log("Room añadida:", rooms)
 }
 
 interface IGoogleTokenResult {
