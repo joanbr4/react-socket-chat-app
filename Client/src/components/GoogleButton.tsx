@@ -1,53 +1,58 @@
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode"
 import { useContext } from "react"
+// import { useNavigate } from "react-router-dom"
+import { UserContext } from "../pages/layouts/UserContext"
 import { useNavigate } from "react-router-dom"
-import { UserContext, UserProvider } from "../pages/layouts/UserContext"
-import axios from "axios"
 
-interface IGoogletoken {
-  authuser: string
-  code: string
-  prompt: string
-  scope: string
-}
-// type TDecodedToken = {
-//   email: string
-//   given_name: string
-//   name: string
-//   sub: string
+// interface IGoogCode {
+//   clientId: string
+//   credential: string
+//   select_by: string
 // }
+type TDecodedToken = {
+  email: string
+  given_name: string
+  name: string
+  iss: string
+}
 
 function GoogleButton() {
   const navigate = useNavigate()
   const { userRef } = useContext(UserContext) || {}
 
-  const login = useGoogleLogin({
-    onSuccess: async (response) => {
-      console.log(response)
-      try {
-        const data = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${response?.access_token}`,
-            },
-          }
-        )
-        console.log(data)
-      } catch (err) {
-        console.log(err)
+  const succes = async (credentialResponse: CredentialResponse) => {
+    console.log(credentialResponse)
+    try {
+      const decode: TDecodedToken = jwtDecode(
+        String(credentialResponse?.credential)
+      )
+      console.log(decode)
+      const { iss, email, given_name: nickname, name: fullname } = decode
+      if (userRef) {
+        userRef.current = {
+          _id: iss,
+          email,
+          genere: "Not Selected",
+          nickname,
+          name: fullname,
+        }
       }
-    },
-    flow: "auth-code",
-    onError: () => {
-      console.log("Error al hacer login")
-    },
-  })
+      navigate("/home")
+
+      console.log(userRef?.current)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const error = () => {
+    console.log("Error al hacer login")
+  }
 
   return (
     <div className="google-login-button">
-      <button onClick={() => login()}>Google In</button>
+      <GoogleLogin onSuccess={succes} onError={error} />
     </div>
   )
 }

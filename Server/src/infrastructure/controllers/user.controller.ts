@@ -3,6 +3,7 @@ import { IdataLogin } from "../../domain/model"
 import * as userServices from "../services/user.services"
 import jwt from "jsonwebtoken"
 import config from "config"
+import { OAuth2Client } from "google-auth-library"
 
 export const loginOne = async (req: Request, res: Response) => {
   const data: IdataLogin = req.body.datos
@@ -50,12 +51,10 @@ export const chatOne = async (req: Request, res: Response) => {
   const chatWith = req.params.with
   if (chatWith == "null") {
     const chats = await userServices.listChats(owner)
-    console.log("we", chats)
     res.status(200).send(chats)
   } else {
     const sorted = [owner, chatWith].sort()
     const nameRoom = `${sorted[0]} ${sorted[1]}`
-    console.log("chating with:", nameRoom)
     const chat = await userServices.findchat(nameRoom)
 
     if (chat?.pair_writers == undefined) {
@@ -115,4 +114,9 @@ export const cloudOne = async (req: Request, res: Response) => {
     res.redirect(`${config.get("originWeb")}/oauth/error`)
   }
   // res.status(200).send(cloud)
+}
+
+export const authGoogle = async (req: Request, res: Response) => {
+  const code = req.body.code
+  console.log("bodyyy", code)
 }

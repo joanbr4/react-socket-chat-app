@@ -34,3 +34,7 @@ export const createChat = async (owner: string, name: string) => {
     method: "POST",
   })
 }
+
+export const getToken = async (token: object) => {
+  console.log(token)
+}

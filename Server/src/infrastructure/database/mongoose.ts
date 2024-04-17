@@ -1,11 +1,12 @@
 import "dotenv/config"
-import mongoose, { ConnectOptions, Schema, model } from "mongoose"
+import mongoose, { Schema, model } from "mongoose"
 import { IdataRegister, IdbMessage } from "../../domain/model"
 import bcrypt from "bcrypt"
 
 let uri = `mongodb://root:example@localhost:27017` //El puerto viene predefinido en la imagen, de manera interna, si cambio da error!!
+// let uri = process.env.MONGO_URI as string //El puerto viene predefinido en la imagen, de manera interna, si cambio da error!!
 // let uri = "mongodb://localhost:27017"; //Funciona!!
-
+console.log("uri", uri)
 mongoose
   .connect(uri)
   .then(async () => {

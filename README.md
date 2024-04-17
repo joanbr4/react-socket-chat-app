@@ -1,8 +1,6 @@
-## Just Chattin'
+# Just Chattin'
 
 ## What can I watch and expected from this project?
-
-##Feature
 
 This repository has implemented many things, such as:
 
@@ -13,4 +11,28 @@ This repository has implemented many things, such as:
 
 ## Requisited needed
 
-this project try to be use and handy and easy to connect and make your own testing, so for our query to datam we made it with Docker and must be installed first
+this project try to be use and handy and easy to connect and to be able make your own testing, improvement and so on, so for our queries to dataBase we made it using MongoDB with image [Docker] and must be installed first
+
+## Install
+
+We need first of all run our dataBase Image from Docker, its already configured:
+
+```sh
+docker compose up -d
+```
+
+Then run the project with 2 commands, one for install all dependencies in Client and Server side:
+
+```sh
+npm run build
+```
+
+And runing the project
+
+```sh
+npm run start
+```
+
+![RegisterPage]('public/registerPage.jpg')
+
+[Docker]: https://www.docker.com/products/docker-desktop/
