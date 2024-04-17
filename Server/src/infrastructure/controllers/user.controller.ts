@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { IdataLogin } from "../../domain/model"
 import * as userServices from "../services/user.services"
 import config from "config"
+import { OAuth2Client } from "google-auth-library"
 
 export const loginOne = async (req: Request, res: Response) => {
   const data: IdataLogin = req.body.datos
