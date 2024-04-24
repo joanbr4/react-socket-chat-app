@@ -24,7 +24,7 @@ export const Footer = () => {
           </li>
           <li className="itemLogoFooter">
             <a
-              href="https://linkedin.com/in/joan-bordonaba"
+              href="https://linkedin.com/in/joanbr4"
               title="Linkedin"
               target="_blank"
             >
@@ -38,11 +38,7 @@ export const Footer = () => {
             </a>
           </li>
           <li className="itemLogoFooter">
-            <a
-              href="https://github.com/jbordo04"
-              title="Github"
-              target="_blank"
-            >
+            <a href="https://github.com/joanbr4" title="Github" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="white"

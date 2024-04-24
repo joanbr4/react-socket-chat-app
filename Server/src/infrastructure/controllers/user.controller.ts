@@ -2,7 +2,6 @@ import { Request, Response } from "express"
 import { IdataLogin } from "../../domain/model"
 import * as userServices from "../services/user.services"
 import config from "config"
-import { OAuth2Client } from "google-auth-library"
 
 export const loginOne = async (req: Request, res: Response) => {
   const data: IdataLogin = req.body.datos
@@ -115,7 +114,7 @@ export const cloudOne = async (req: Request, res: Response) => {
   // res.status(200).send(cloud)
 }
 
-export const authGoogle = async (req: Request, res: Response) => {
+export const authGoogle = async (req: Request, _res: Response) => {
   const code = req.body.code
   console.log("bodyyy", code)
 }
