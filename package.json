@@ -9,7 +9,7 @@
     "build:backend": "cd Server && npm install ",
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "cd Client && npm install && npm run dev",
-    "start:backend": "cd Server && npm install && npm run dev",
+    "start:backend": "cd Server && npm install && npm run build",
     "eslint": "eslint \"./**/*.{js,ts}\""
   },
   "devDependencies": {
