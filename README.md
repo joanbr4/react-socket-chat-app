@@ -22,23 +22,21 @@ We need to first run our database image from Docker, as it's already configured.
 docker compose up -d
 ```
 
-To making all installation and run all differents scripts, browse inside subfolder's README.md and follow the instructions
+To making all installation and run all differents scripts, browse inside subfolders' README.md and follow the instructions
 
-Heading to Server/ README.md to know about it and put this in terminal
+Heading to Server/ README.md to know about it and put this in terminal, <a href='Server'>here</a>
 
-```sh
-cd Server
-```
-
-Heading to Client/ README.md to know about it and put this in terminal
-
-```sh
-cd Client
-```
+Heading to Client/ README.md to know about it and put this in terminal, <a href='Client'>here</a>
 
 <br/>
 
 When you are logged in, we've added mock users for you. To find them and start chatting, use the keyword search "all".
+
+If want to use this mock users as you, put this data:
+
+- mock-email: `john.doe@gmail.com`/ `jane.doe@gmail.com`/`kevin.doe@gmail.com`/`anne.doe@gmail.com`
+
+- mock-password: `asdasd`
 
 We hope you enjoy this project and feel free to conduct your own tests and make improvements!
 

@@ -2,7 +2,13 @@
 
 ## How to Install and run it?
 
-Before running the entire project, we need to install our primary depedencies. To do so, enter `npm install` in terminal.
+Before running the entire project, we need to Check that you are in server route (subfolder) in terminal, if not, copy this.
+
+```sh
+cd Server/
+```
+
+Lets install all dependencies with next script.
 
 ```sh
 npm install
