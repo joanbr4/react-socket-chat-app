@@ -4,7 +4,7 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 ## How to install and run it?
 
-Before running the entire project, we need to Check that you are in client route (subfolder) in terminal, if not, copy this.
+Before running the frontend project, we need to check that you are in the client route (subfolder) in terminal, if not, copy this.
 
 ```sh
 cd Client/

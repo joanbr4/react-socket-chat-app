@@ -4,9 +4,9 @@
 
 This repository has implemented many things, such as:
 
-- Room, namespaces
-- Validations JWT
-- Sockets
+- Sockets, customs rooms
+- Validation with Zod, JWT, APIs
+- Docker with Mongo to persist data
 - Component Architecture in Frontend & Hexagonal from Backend as well
 - Routing
 
@@ -22,11 +22,11 @@ We need to first run our database image from Docker, as it's already configured.
 docker compose up -d
 ```
 
-To making all installation and run all differents scripts, browse inside subfolders' README.md and follow the instructions
+To install and run all different scripts, navigate to the Server/Client Subfoler, and read the following instructions and execute it in the terminal.
 
-Heading to Server/ README.md to know about it and put this in terminal, <a href='Server'>here</a>
+Navigate to the Server subfolder, <a href='Server'>here</a>
 
-Heading to Client/ README.md to know about it and put this in terminal, <a href='Client'>here</a>
+Navigate to the Client subfolder, <a href='Client'>here</a>
 
 <br/>
 

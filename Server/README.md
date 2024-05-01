@@ -2,7 +2,7 @@
 
 ## How to Install and run it?
 
-Before running the entire project, we need to Check that you are in server route (subfolder) in terminal, if not, copy this.
+Before running the backend project, we need to check that you are in the server route (subfolder) in terminal, if not, copy this.
 
 ```sh
 cd Server/
