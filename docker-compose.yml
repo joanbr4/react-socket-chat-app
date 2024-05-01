@@ -1,22 +1,6 @@
 version: "3.1"
 
 services:
-  # node:
-  # build:
-  #   context: .
-  #   dockerfile: Dockerfile
-  #   # volumes:
-  #   #   - .:/app
-  #   # command: /usr/local/wait-for-it.sh mongosh:27017 -- npm run dev
-  #   # env_file:
-  #   #   - .env
-  #   # ports:
-  #   #   - "${PORT}:4000"
-  #   networks:
-  #     - node_network
-  #   depends_on:
-  #     - mongo
-
   mongo:
     image: mongo
     restart: always
@@ -30,10 +14,8 @@ services:
     networks:
       - node_network
 
-  digNikola: #dig mongo  # docker run -it --network chat-server_node_network nicolaka/netshoot
-    image: nicolaka/netshoot
-    networks:
-      - node_network
-
 networks:
   node_network:
+# nicolaka/netshoot: Let us inspect another container in the same network and get pretty sensitive data from it (ip, etc)
+# docker run -it --network chat-server_node_network nicolaka/netshoot
+# dig mongo

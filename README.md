@@ -22,18 +22,18 @@ We need to first run our database image from Docker, as it's already configured.
 docker compose up -d
 ```
 
-Before running the entire project, we need to install our primary depedencies. To do so, enter `npm install` in terminal.
+To making all installation and run all differents scripts, browse inside subfolder's README.md and follow the instructions
 
-Now we can run both sides of the project with just two commands. One command install all dependencies for both the client and server sides:
+Heading to Server/ README.md to know about it and put this in terminal
 
 ```sh
-npm run build
+cd Server
 ```
 
-And the other command is used to run both:
+Heading to Client/ README.md to know about it and put this in terminal
 
 ```sh
-npm run start
+cd Client
 ```
 
 <br/>

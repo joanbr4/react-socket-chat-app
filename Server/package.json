@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon src/main.ts",
     "eslint": "eslint \"./**/*.{js,ts}\"",
-    "test": "jest",
     "build": "tsc && npm run start",
     "start": "node --watch dist/src/main.js"
   },
