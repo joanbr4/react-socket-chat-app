@@ -14,7 +14,25 @@ This repository has implemented many things, such as:
 
 This project aims to be user-friendly, convenient, and easy to connect to for testing, improvement and more. To handle database queries, we've opted for MongoDB with a [Docker] image, which must be installed first.
 
-## How to Install?
+## How to run the project ?
+
+# One way: Docker
+
+- Dockerize the entire project, connecting three containers: one for the MongoDB database, another for deploying the client-side with Vite, and the last one for the server-side with Express. They are all interconnected.
+
+- To build the image and run it within its own container, we have simplified it with one script.
+
+```sh
+docker compose up -d
+```
+
+- When all containers are connected and running, you can open your favorite web browser and navigate to the following address.
+
+```sh
+http://localhost:5173
+```
+
+# Other way: npm
 
 To install and run all different scripts, navigate to the Server/Client Subfoler, and read the following instructions and execute it in the terminal.
 
@@ -34,20 +52,24 @@ If want to use this mock users as you, put this data:
 
 We hope you enjoy this project and feel free to conduct your own tests and make improvements!
 
-<p align="center" >  
+<p align="center" >
 <img src="./assets/registerPage.jpg" title="SigInPage" width="900" >
 </p>
 
 <br/>
 
-<p align="center">  
+<p align="center">
 <img src="./assets/publicRoom.png" title="PublicRoom" width="900" >
 </p>
 
 <br/>
 
-<p align="center">  
+<p align="center">
 <img src="./assets/chatPrivate.jpg" title="PrivatePage" width="900" >
 </p>
 
 [Docker]: https://www.docker.com/products/docker-desktop/
+
+```
+
+```
