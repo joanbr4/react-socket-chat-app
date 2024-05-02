@@ -42,7 +42,7 @@ Navigate to the Client subfolder, <a href='Client'>here</a>
 
 <br/>
 
-You can chat with yourself, just doubling page and starting, but if you want to get full access to all features you need to register.
+You can chat with yourself by simply opening the page twice and entering the same room and starting a conversation, but if you want to get full access to all features you need to register.
 
 When you are logged in, we've added mock users for you. To find them and start chatting, use the keyword search "all".
 

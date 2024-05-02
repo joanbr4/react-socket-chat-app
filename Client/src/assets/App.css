@@ -352,6 +352,7 @@ i {
   #sidebar {
     /* position: absolute; */
     /* top: 0px; */
+    margin-left: 20px;
     .boxbusquedaHome {
       display: flex;
       position: relative;
@@ -363,8 +364,8 @@ i {
         border-radius: 15px;
         height: 2.2rem;
         width: 100%;
-        font-size: calc(2.6rem - 1vh);
-        padding-left: 10 px;
+        font-size: calc(1.6rem - 0.5vh);
+        padding-left: 10px;
       }
       .buttonSearch {
         position: absolute;
@@ -388,6 +389,34 @@ i {
         font-size: calc(2.5rem - 0.5vh);
       }
     }
+  }
+  @media (max-width: 1200px) {
+    #sidebar {
+      width: 10rem;
+      font-size: calc(1.2rem - 0.5vh);
+      .boxbusquedaHome {
+        .busquedaHome {
+          font-size: calc(1.6rem - 0.5vh);
+        }
+      }
+    }
+    /* .busquedaHome {
+      font-size: calc(0.5rem - 0.5vh);
+    } */
+  }
+  @media (max-width: 500px) {
+    #sidebar {
+      margin: 1px;
+      font-size: calc(1rem - 0.5vh);
+      .boxbusquedaHome {
+        .busquedaHome {
+          font-size: calc(1.6rem - 0.5vh);
+        }
+      }
+    }
+    /* .busquedaHome {
+      font-size: calc(0.5rem - 0.5vh);
+    } */
   }
   .chatHome {
     /* display: none; */
@@ -499,8 +528,75 @@ i {
       }
     }
   }
+  @media (max-width: 1250px) {
+    .chatHome {
+      width: 850px;
+      .BoxChatHome {
+        width: 780px;
+      }
+      .boxInputRoom {
+        width: 780px;
+      }
+    }
+  }
+  @media (max-width: 1090px) {
+    .chatHome {
+      width: 700px;
+      .BoxChatHome {
+        width: 650px;
+      }
+      .boxInputRoom {
+        width: 650px;
+      }
+    }
+    @media (max-width: 850px) {
+      .chatHome {
+        width: 450px;
+        .BoxChatHome {
+          width: 400px;
+        }
+        .boxInputRoom {
+          width: 400px;
+        }
+      }
+    }
+    @media (max-width: 500px) {
+      .chatHome {
+        width: 400px;
+        .BoxChatHome {
+          width: 210px;
+        }
+        .boxInputRoom {
+          width: 210px;
+        }
+      }
+    }
+  }
 }
-
+@media (max-width: 1250px) {
+  .bodyHome {
+    width: 1250px;
+    /* width: calc(1250px- 1px); */
+  }
+}
+@media (max-width: 1090px) {
+  .bodyHome {
+    width: 1000px;
+    /* width: calc(1090px- 1px); */
+  }
+}
+@media (max-width: 850px) {
+  .bodyHome {
+    width: 850px;
+    /* width: calc(1090px- 1px); */
+  }
+}
+@media (max-width: 500px) {
+  .bodyHome {
+    width: 500px;
+    /* width: calc(200px- 1px); */
+  }
+}
 .listChatUsers {
   /* display: none; */
   .boxUser {
