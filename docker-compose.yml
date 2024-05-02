@@ -1,6 +1,42 @@
 version: "3.1"
 
 services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: server-builder
+    networks:
+      - node_network
+    depends_on:
+      - mongo
+    environment:
+      URI: "mongodb://root:example@mongo:27017"
+      PORT: 4000
+    ports:
+      - 4000:4000
+    tty: true
+    # volumes:
+    #   - .:/app
+    # command: /usr/local/wait-for-it.sh mongosh:27017 -- npm run dev
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: client-builder
+    # entrypoint: /bin/sh //Not interested to run manually within container
+    networks:
+      - node_network
+    ports:
+      - 5173:5173
+    tty: true
+    environment:
+      VITEDOCKER: "Hola Docker"
+    volumes:
+      - type: bind
+        source: ./
+        target: /srv/app
   mongo:
     image: mongo
     restart: always
@@ -8,7 +44,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - "./data/mongodb:/data/db"
+      - "./Server/data/mongodb:/data/db"
     ports:
       - 27017:27017
     networks:

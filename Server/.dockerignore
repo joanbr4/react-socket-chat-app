@@ -1,8 +1,5 @@
 # Only if it not used bc it needed for build image!!
 # Dockerfile
-**/.git
-.git
-.gitignore
-Client/node_modules
-Server/node_modules
-
+node_modules/
+.env
+data/

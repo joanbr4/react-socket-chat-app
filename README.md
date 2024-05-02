@@ -16,12 +16,6 @@ This project aims to be user-friendly, convenient, and easy to connect to for te
 
 ## How to Install?
 
-We need to first run our database image from Docker, as it's already configured.
-
-```sh
-docker compose up -d
-```
-
 To install and run all different scripts, navigate to the Server/Client Subfoler, and read the following instructions and execute it in the terminal.
 
 Navigate to the Server subfolder, <a href='Server'>here</a>

@@ -14,6 +14,12 @@ Lets install all dependencies with next script.
 npm install
 ```
 
+Then, lets create a container with our dataBase Mongo, it's already configured.
+
+```sh
+docker compose up -d
+```
+
 To build our project (turn into .js), we just run next script.
 
 ```sh
