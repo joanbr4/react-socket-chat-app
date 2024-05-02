@@ -42,9 +42,11 @@ Navigate to the Client subfolder, <a href='Client'>here</a>
 
 <br/>
 
+You can chat with yourself, just doubling page and starting, but if you want to get full access to all features you need to register.
+
 When you are logged in, we've added mock users for you. To find them and start chatting, use the keyword search "all".
 
-If want to use this mock users as you, put this data:
+If want to use this mock users as you, put this data in login:
 
 - mock-email: `john.doe@gmail.com`/ `jane.doe@gmail.com`/`kevin.doe@gmail.com`/`anne.doe@gmail.com`
 
@@ -69,7 +71,3 @@ We hope you enjoy this project and feel free to conduct your own tests and make 
 </p>
 
 [Docker]: https://www.docker.com/products/docker-desktop/
-
-```
-
-```
