@@ -5,16 +5,16 @@ import react from "@vitejs/plugin-react"
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   Object.assign(process.env, loadEnv(mode, process.cwd(), ""))
-  // require("dotenv").config({ path: `./.env.${mode}` })
+
   const isDocker = process.env.VITE_DOCKER
-  // console.debug(isDocker)
+
   return {
     plugins: [react()],
     server: {
       //Dockerize a vite, specifing ports, etc
       port: 5173,
       host: true,
-      strictPort: true,
+      // strictPort: true,
       // origin: "http://0.0.0.0:5173",
       //For windows and had hot reloads doesn't work
       watch: {

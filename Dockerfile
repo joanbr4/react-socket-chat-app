@@ -14,18 +14,3 @@ COPY ./Client/ .
 RUN  npm install
 EXPOSE 5173
 CMD ["npm","run", "dev"]
-
-
-# Use a new stage for the final image
-FROM node:20-alpine
-WORKDIR /app
-COPY --from=server-builder /Server/  .
-COPY --from=client-builder /Client/dist ./Client
-RUN npm install
-RUN npm run dev
-# # Expose ports if necessary
-# EXPOSE 4000
-# EXPOSE 5173
-
-# Command to start both server and client
-CMD ["npm","run", "dev"]

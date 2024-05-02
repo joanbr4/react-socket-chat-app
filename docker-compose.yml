@@ -32,11 +32,11 @@ services:
       - 5173:5173
     tty: true
     environment:
-      VITEDOCKER: "Hola Docker"
-    volumes:
-      - type: bind
-        source: ./
-        target: /srv/app
+      VITE_DOCKER: "Hola Docker"
+    # volumes:
+    #   - type: bind
+    #     source: ./
+    #     target: /srv/app
   mongo:
     image: mongo
     restart: always

@@ -8,7 +8,7 @@
     "eslint": "eslint \"./**/*.{js,ts}\"",
     "build": "tsc && npm run start",
     "start": "node --watch dist/src/main.js",
-    "docker": "docker start monogodb || npm run container",
+    "docker": "docker start mongodb || npm run container",
     "container": "docker run --name mongodb -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example  -dp 27017:27017  mongo:latest"
   },
   "husky": {

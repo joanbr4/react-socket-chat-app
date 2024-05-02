@@ -14,9 +14,9 @@ This repository has implemented many things, such as:
 
 This project aims to be user-friendly, convenient, and easy to connect to for testing, improvement and more. To handle database queries, we've opted for MongoDB with a [Docker] image, which must be installed first.
 
-## How to run the project ?
+# How to run the project ?
 
-# One way: Docker
+## One way: Docker
 
 - Dockerize the entire project, connecting three containers: one for the MongoDB database, another for deploying the client-side with Vite, and the last one for the server-side with Express. They are all interconnected.
 
@@ -32,7 +32,7 @@ docker compose up -d
 http://localhost:5173
 ```
 
-# Other way: npm
+## Other way: npm
 
 To install and run all different scripts, navigate to the Server/Client Subfoler, and read the following instructions and execute it in the terminal.
 
