@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/main.ts",
     "eslint": "eslint \"./**/*.{js,ts}\"",
-    "build": "tsc && npm run start",
+    "build": "tsc",
     "start": "node --watch dist/src/main.js",
     "docker": "docker start mongodb || npm run container",
     "container": "docker run --name mongodb -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example  -dp 27017:27017  mongo:latest"
